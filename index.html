@@ -7,24 +7,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #fef6f9;
+            --bg-primary: #f5f9fd;
             --bg-secondary: #ffffff;
-            --bg-tertiary: #f0f4ff;
-            --bg-card: #fff8fb;
-            --accent-primary: #8b5cf6;
-            --accent-secondary: #ec4899;
-            --accent-tertiary: #06b6d4;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-error: #f43f5e;
-            --accent-info: #60a5fa;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 2px 8px rgba(139, 92, 246, 0.08);
-            --shadow-md: 0 4px 16px rgba(139, 92, 246, 0.12);
-            --shadow-lg: 0 8px 32px rgba(139, 92, 246, 0.15);
+            --bg-tertiary: #fef5ed;
+            --bg-card: #fefbf7;
+            --bg-hover: #e8f4fb;
+            --accent-primary: #7eb6d4;
+            --accent-secondary: #f4a882;
+            --accent-tertiary: #a8c5d9;
+            --accent-success: #86c9a8;
+            --accent-warning: #f4a882;
+            --accent-error: #e8a8a0;
+            --accent-info: #90c8e8;
+            --text-primary: #2c3e50;
+            --text-secondary: #5a6c7d;
+            --text-muted: #8b9aa9;
+            --border-color: #e3eaf0;
+            --border-light: #f0f5f9;
+            --shadow-sm: 0 2px 6px rgba(126, 182, 212, 0.08);
+            --shadow-md: 0 4px 12px rgba(126, 182, 212, 0.12);
+            --shadow-lg: 0 8px 24px rgba(126, 182, 212, 0.15);
         }
 
         * {
@@ -35,7 +37,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #fef6f9 0%, #f0f4ff 50%, #fef6f9 100%);
+            background: linear-gradient(135deg, #f5f9fd 0%, #fef5ed 50%, #fefbf7 100%);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
@@ -63,7 +65,7 @@
         .float-shape:nth-child(1) {
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, var(--accent-primary), transparent);
+            background: radial-gradient(circle, #7eb6d4, transparent);
             top: -100px;
             left: -100px;
             animation-delay: 0s;
@@ -72,7 +74,7 @@
         .float-shape:nth-child(2) {
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, var(--accent-secondary), transparent);
+            background: radial-gradient(circle, #f4a882, transparent);
             top: 50%;
             right: -150px;
             animation-delay: 5s;
@@ -81,7 +83,7 @@
         .float-shape:nth-child(3) {
             width: 250px;
             height: 250px;
-            background: radial-gradient(circle, var(--accent-tertiary), transparent);
+            background: radial-gradient(circle, #e8d5b7, transparent);
             bottom: -100px;
             left: 30%;
             animation-delay: 10s;
@@ -539,6 +541,7 @@
             transition: all 0.3s ease;
             white-space: nowrap;
             border: 2px solid transparent;
+            position: relative;
         }
 
         .editor-tab:hover {
@@ -553,11 +556,37 @@
             border-bottom-color: var(--bg-secondary);
         }
 
-        .tab-close {
-            padding: 2px 8px;
-            border-radius: 6px;
+        .editor-tab.default-lang::after {
+            content: '★';
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            font-size: 11px;
+            color: #fbbf24;
+        }
+
+        .tab-actions {
+            display: flex;
+            gap: 4px;
+            margin-left: 6px;
+        }
+
+        .tab-action-btn {
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 12px;
             transition: all 0.2s ease;
-            font-size: 16px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .tab-set-default {
+            color: var(--text-muted);
+        }
+
+        .tab-set-default:hover {
+            background: #fef3c7;
+            color: #92400e;
         }
 
         .tab-close:hover {
@@ -1084,6 +1113,18 @@
             { id: 'bigtech', name: '🚀 Big Tech Interviews', progress: '0/50', icon: '🎯' }
         ];
 
+        // Helper function to create complete hints for all languages
+        const createHints = (template) => ({
+            python: template.python || 'Use Python syntax to solve this problem.',
+            javascript: template.javascript || 'Use JavaScript syntax to solve this problem.',
+            typescript: template.typescript || template.javascript || 'Use TypeScript syntax to solve this problem.',
+            java: template.java || 'Use Java syntax to solve this problem.',
+            cpp: template.cpp || 'Use C++ syntax to solve this problem.',
+            go: template.go || 'Use Go syntax to solve this problem.',
+            rust: template.rust || 'Use Rust syntax to solve this problem.',
+            abap: template.abap || 'Use ABAP syntax to solve this problem.'
+        });
+
         // Expanded problem sets
         const PROBLEMS = {
             basics: [
@@ -1096,13 +1137,16 @@
                     examples: [
                         { input: 'None', output: 'Hello, World!' }
                     ],
-                    hints: {
-                        python: 'Use the print() function. Example: print("your message")',
-                        javascript: 'Use console.log(). Example: console.log("your message")',
-                        java: 'Use System.out.println(). Example: System.out.println("your message")',
-                        cpp: 'Use cout. Example: cout << "your message" << endl;',
-                        abap: 'Use WRITE statement. Example: WRITE: / \'your message\'.'
-                    },
+                    hints: createHints({
+                        python: 'Use the print() function: print("Hello, World!")',
+                        javascript: 'Use console.log(): console.log("Hello, World!")',
+                        typescript: 'Use console.log(): console.log("Hello, World!")',
+                        java: 'Use System.out.println(): System.out.println("Hello, World!");',
+                        cpp: 'Use cout: cout << "Hello, World!" << endl;',
+                        go: 'Use fmt.Println(): fmt.Println("Hello, World!")',
+                        rust: 'Use println! macro: println!("Hello, World!");',
+                        abap: 'Use WRITE: WRITE: / \'Hello, World!\'.'
+                    }),
                     testCases: [
                         { input: '', expected: 'Hello, World!' }
                     ]
@@ -1116,13 +1160,16 @@
                     examples: [
                         { input: 'name = "Alice"', output: 'Alice' }
                     ],
-                    hints: {
-                        python: 'Create a variable: name = "Your Name", then print(name)',
-                        javascript: 'Create a variable: let name = "Your Name", then console.log(name)',
-                        java: 'String name = "Your Name"; System.out.println(name);',
-                        cpp: 'string name = "Your Name"; cout << name << endl;',
-                        abap: 'DATA: lv_name TYPE string. lv_name = \'Your Name\'. WRITE: / lv_name.'
-                    },
+                    hints: createHints({
+                        python: 'name = "Alice"\nprint(name)',
+                        javascript: 'let name = "Alice";\nconsole.log(name);',
+                        typescript: 'let name: string = "Alice";\nconsole.log(name);',
+                        java: 'String name = "Alice";\nSystem.out.println(name);',
+                        cpp: 'string name = "Alice";\ncout << name << endl;',
+                        go: 'name := "Alice"\nfmt.Println(name)',
+                        rust: 'let name = "Alice";\nprintln!("{}", name);',
+                        abap: 'DATA: lv_name TYPE string.\nlv_name = \'Alice\'.\nWRITE: / lv_name.'
+                    }),
                     testCases: []
                 },
                 {
@@ -1135,13 +1182,13 @@
                         { input: 'a = 5, b = 3', output: '8' },
                         { input: 'a = 10, b = 20', output: '30' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'Store numbers in variables, use + operator, print the result',
                         javascript: 'let sum = num1 + num2; console.log(sum);',
                         java: 'int sum = num1 + num2; System.out.println(sum);',
                         cpp: 'int sum = num1 + num2; cout << sum << endl;',
                         abap: 'DATA: lv_sum TYPE i. lv_sum = lv_num1 + lv_num2. WRITE: / lv_sum.'
-                    },
+                    }),
                     testCases: [
                         { input: '5, 3', expected: '8' },
                         { input: '10, 20', expected: '30' }
@@ -1157,13 +1204,13 @@
                         { input: 'width = 5, height = 3', output: '15' },
                         { input: 'width = 7, height = 4', output: '28' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'area = width * height. Use * for multiplication',
                         javascript: 'let area = width * height;',
                         java: 'int area = width * height;',
                         cpp: 'int area = width * height;',
                         abap: 'lv_area = lv_width * lv_height.'
-                    },
+                    }),
                     testCases: [
                         { input: '5, 3', expected: '15' },
                         { input: '7, 4', expected: '28' }
@@ -1178,13 +1225,13 @@
                     examples: [
                         { input: 'a = 5, b = 10', output: 'a = 10, b = 5' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'Use a temporary variable: temp = a, a = b, b = temp. Or use Python\'s tuple unpacking: a, b = b, a',
                         javascript: 'Use a temporary variable or destructuring: [a, b] = [b, a]',
                         java: 'int temp = a; a = b; b = temp;',
                         cpp: 'int temp = a; a = b; b = temp;',
                         abap: 'DATA: lv_temp TYPE i. lv_temp = lv_a. lv_a = lv_b. lv_b = lv_temp.'
-                    },
+                    }),
                     testCases: []
                 }
             ],
@@ -1198,13 +1245,13 @@
                     examples: [
                         { input: '', output: 'age = 25, price = 19.99, name = "Alice", is_student = True' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'age = 25, price = 19.99, name = "Alice", is_student = True',
                         javascript: 'let age = 25; let price = 19.99; let name = "Alice"; let isStudent = true;',
                         java: 'int age = 25; double price = 19.99; String name = "Alice"; boolean isStudent = true;',
                         cpp: 'int age = 25; double price = 19.99; string name = "Alice"; bool isStudent = true;',
                         abap: 'DATA: lv_age TYPE i, lv_price TYPE p DECIMALS 2, lv_name TYPE string, lv_student TYPE abap_bool.'
-                    },
+                    }),
                     testCases: []
                 },
                 {
@@ -1217,13 +1264,13 @@
                         { input: 'celsius = 0', output: '32.0' },
                         { input: 'celsius = 100', output: '212.0' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'fahrenheit = celsius * 9/5 + 32',
                         javascript: 'let fahrenheit = celsius * 9/5 + 32;',
                         java: 'double fahrenheit = celsius * 9.0/5.0 + 32;',
                         cpp: 'double fahrenheit = celsius * 9.0/5.0 + 32;',
                         abap: 'lv_fahrenheit = lv_celsius * 9 / 5 + 32.'
-                    },
+                    }),
                     testCases: [
                         { input: '0', expected: '32.0' },
                         { input: '100', expected: '212.0' }
@@ -1242,13 +1289,13 @@
                         { input: '-3', output: 'Negative' },
                         { input: '0', output: 'Zero' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'Use if-elif-else: if num > 0: print("Positive")',
                         javascript: 'Use if-else if-else statements',
                         java: 'Use if-else if-else with comparison operators',
                         cpp: 'Use if-else if-else statements',
                         abap: 'Use IF-ELSEIF-ELSE statements'
-                    },
+                    }),
                     testCases: [
                         { input: '5', expected: 'Positive' },
                         { input: '-3', expected: 'Negative' },
@@ -1266,13 +1313,13 @@
                     examples: [
                         { input: '', output: '1 2 3 4 5 6 7 8 9 10' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'Use a for loop: for i in range(1, 11): print(i)',
                         javascript: 'Use a for loop: for(let i = 1; i <= 10; i++)',
                         java: 'Use a for loop: for(int i = 1; i <= 10; i++)',
                         cpp: 'Use a for loop: for(int i = 1; i <= 10; i++)',
                         abap: 'Use DO loop with counter'
-                    },
+                    }),
                     testCases: []
                 }
             ],
@@ -1287,13 +1334,13 @@
                         { input: 'nums = [2,7,11,15], target = 9', output: '[0,1]' },
                         { input: 'nums = [3,2,4], target = 6', output: '[1,2]' }
                     ],
-                    hints: {
+                    hints: createHints({
                         python: 'Use a dictionary to store seen numbers and their indices. For each number, check if target - num exists in the dictionary.',
                         javascript: 'Use a Map to track numbers you\'ve seen. Check if complement exists.',
                         java: 'Use HashMap<Integer, Integer> to store value and index pairs.',
                         cpp: 'Use unordered_map<int, int> for O(1) lookup time.',
                         abap: 'Use internal table with hash key for efficient lookups.'
-                    },
+                    }),
                     testCases: [
                         { input: '[2,7,11,15], 9', expected: '[0,1]' },
                         { input: '[3,2,4], 6', expected: '[1,2]' },
@@ -1307,6 +1354,7 @@
         let currentCategory = 'basics';
         let currentProblemIndex = 0;
         let activeEditors = ['python'];
+        let defaultLanguage = 'python';
         let currentEditorIndex = 0;
         let showingHint = false;
         let userProgress = {
@@ -1314,7 +1362,8 @@
             streak: 0,
             points: 0,
             problems: {},
-            completedProblems: {}
+            completedProblems: {},
+            defaultLanguage: 'python'
         };
 
         // Initialize
@@ -1330,11 +1379,13 @@
             const saved = localStorage.getItem('codequest_progress');
             if (saved) {
                 userProgress = JSON.parse(saved);
+                defaultLanguage = userProgress.defaultLanguage || 'python';
                 updateStats();
             }
         }
 
         function saveProgress() {
+            userProgress.defaultLanguage = defaultLanguage;
             localStorage.setItem('codequest_progress', JSON.stringify(userProgress));
             updateStats();
             updateProgressBar();
@@ -1475,12 +1526,16 @@
             const tabs = activeEditors.map((lang, idx) => {
                 const langData = LANGUAGES[lang];
                 const canClose = activeEditors.length > 1;
+                const isDefault = lang === defaultLanguage;
                 return `
-                    <button class="editor-tab ${idx === currentEditorIndex ? 'active' : ''}" 
+                    <button class="editor-tab ${idx === currentEditorIndex ? 'active' : ''} ${isDefault ? 'default-lang' : ''}" 
                             onclick="switchEditor(${idx})"
                             data-lang="${lang}">
                         <span>${langData.icon} ${langData.name}</span>
-                        ${canClose ? `<span class="tab-close" onclick="closeEditor(${idx}, event)">×</span>` : ''}
+                        <div class="tab-actions" onclick="event.stopPropagation()">
+                            ${!isDefault ? `<span class="tab-action-btn tab-set-default" onclick="setDefaultLanguage('${lang}')" title="Set as default">☆</span>` : ''}
+                            ${canClose ? `<span class="tab-action-btn tab-close" onclick="closeEditor(${idx}, event)">×</span>` : ''}
+                        </div>
                     </button>
                 `;
             }).join('');
@@ -1543,12 +1598,35 @@
                 return;
             }
             
+            const closingLang = activeEditors[index];
+            
+            // If closing default language, set new default
+            if (closingLang === defaultLanguage) {
+                defaultLanguage = activeEditors[index === 0 ? 1 : 0];
+                saveProgress();
+            }
+            
             activeEditors.splice(index, 1);
             if (currentEditorIndex >= activeEditors.length) {
                 currentEditorIndex = activeEditors.length - 1;
             }
             
             renderEditors();
+        }
+
+        function setDefaultLanguage(lang) {
+            defaultLanguage = lang;
+            saveProgress();
+            renderEditors();
+            
+            // Move default language to first position if not already
+            const langIndex = activeEditors.indexOf(lang);
+            if (langIndex > 0) {
+                activeEditors.splice(langIndex, 1);
+                activeEditors.unshift(lang);
+                currentEditorIndex = 0;
+                renderEditors();
+            }
         }
 
         function openLanguageModal() {
