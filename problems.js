@@ -38,6 +38,7 @@ const PROBLEMS = {
                 title: 'Print Hello World',
                 difficulty: 'beginner',
                 description: 'Write code that prints "Hello, World!"',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use the print() function',
                     h2: 'print("Hello, World!")'
@@ -52,6 +53,7 @@ const PROBLEMS = {
                 title: 'Add Two Numbers',
                 difficulty: 'beginner',
                 description: 'Create a function that adds two numbers.',
+                expectedOutput: 'When called with sample inputs 2 and 3, returns 5.',
                 hints: {
                     h1: 'Use def keyword to define a function',
                     h2: 'def add(a, b):\n    return a + b'
@@ -71,6 +73,7 @@ const PROBLEMS = {
                 title: 'Create and Print Variables',
                 difficulty: 'beginner',
                 description: 'Create name and age variables, then print both values.',
+                expectedOutput: 'First line: name value, second line: age value.',
                 hints: {
                     h1: 'Use two variable assignments and print()',
                     h2: 'name = "Alice"\nage = 20\nprint(name)\nprint(age)'
@@ -85,6 +88,7 @@ const PROBLEMS = {
                 title: 'Swap Two Variables',
                 difficulty: 'easy',
                 description: 'Swap values of variables a and b.',
+                expectedOutput: 'After swap, a should contain original b and b should contain original a.',
                 hints: {
                     h1: 'Python supports tuple swap syntax',
                     h2: 'a, b = b, a'
@@ -99,6 +103,7 @@ const PROBLEMS = {
                 title: 'Type Conversion Basics',
                 difficulty: 'easy',
                 description: 'Convert string "42" to number and add 8.',
+                expectedOutput: '50',
                 hints: {
                     h1: 'Use int() for conversion',
                     h2: 'n = int("42")\nprint(n + 8)'
@@ -116,6 +121,7 @@ const PROBLEMS = {
                 title: 'Create a Class',
                 difficulty: 'easy',
                 description: 'Create a Person class with __init__ method.',
+                expectedOutput: 'A Person object can be created with name and age properties.',
                 hints: {
                     h1: 'Use class keyword and define __init__ method',
                     h2: 'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age'
@@ -133,6 +139,7 @@ const PROBLEMS = {
                 title: 'Two Sum',
                 difficulty: 'medium',
                 description: 'Return indices of two numbers that add up to target.',
+                expectedOutput: 'For nums=[2,7,11,15], target=9 -> [0, 1]',
                 hints: {
                     h1: 'Use a dictionary to store seen numbers and their indices',
                     h2: 'def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i'
@@ -155,6 +162,7 @@ const PROBLEMS = {
                 title: 'Print Hello World',
                 difficulty: 'beginner',
                 description: 'Write a program that prints "Hello, World!" to console.',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use System.out.println() method',
                     h2: 'System.out.println("Hello, World!");'
@@ -169,6 +177,7 @@ const PROBLEMS = {
                 title: 'Add Two Numbers',
                 difficulty: 'beginner',
                 description: 'Create a method that adds two integers.',
+                expectedOutput: 'Method returns the sum of two integers (e.g., add(2,3)=5).',
                 hints: {
                     h1: 'Define a method with int return type and two int parameters',
                     h2: 'public static int add(int a, int b) { return a + b; }'
@@ -187,6 +196,7 @@ const PROBLEMS = {
                 title: 'Create a Class',
                 difficulty: 'easy',
                 description: 'Create a Person class with fields and constructor.',
+                expectedOutput: 'A Person instance can be constructed with name and age.',
                 hints: {
                     h1: 'Use class keyword with private fields and public constructor',
                     h2: 'public class Person {\n  private String name;\n  private int age;\n  public Person(String n, int a) {\n    name = n;\n    age = a;\n  }\n}'
@@ -209,6 +219,7 @@ const PROBLEMS = {
                 title: 'Print Hello World',
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" to console.',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use console.log() function',
                     h2: 'console.log("Hello, World!");'
@@ -223,6 +234,7 @@ const PROBLEMS = {
                 title: 'Function with Types',
                 difficulty: 'beginner',
                 description: 'Create a typed function that adds two numbers.',
+                expectedOutput: 'Function returns numeric sum (e.g., add(2,3)=5).',
                 hints: {
                     h1: 'Specify parameter types and return type',
                     h2: 'function add(a: number, b: number): number { return a + b; }'
@@ -240,6 +252,7 @@ const PROBLEMS = {
                 title: 'Create a Class',
                 difficulty: 'easy',
                 description: 'Create a Person class with typed properties.',
+                expectedOutput: 'Class can instantiate a Person with typed name and age.',
                 hints: {
                     h1: 'Use class keyword with constructor',
                     h2: 'class Person {\n  constructor(public name: string, public age: number) {}\n}'
@@ -262,6 +275,7 @@ const PROBLEMS = {
                 title: 'Print Hello World',
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" using fmt package.',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use fmt.Println() function',
                     h2: 'fmt.Println("Hello, World!")'
@@ -276,6 +290,7 @@ const PROBLEMS = {
                 title: 'Function Definition',
                 difficulty: 'beginner',
                 description: 'Create a function that adds two integers.',
+                expectedOutput: 'Function returns sum of inputs (e.g., add(2,3)=5).',
                 hints: {
                     h1: 'Use func keyword with parameter types',
                     h2: 'func add(a int, b int) int {\n  return a + b\n}'
@@ -293,6 +308,7 @@ const PROBLEMS = {
                 title: 'Struct and Method',
                 difficulty: 'easy',
                 description: 'Create a Person struct with a method.',
+                expectedOutput: 'Person struct exists and method call returns a greeting string.',
                 hints: {
                     h1: 'Use type and struct keywords',
                     h2: 'type Person struct {\n  Name string\n  Age int\n}\n\nfunc (p Person) Greet() string {\n  return "Hello"\n}'
@@ -315,6 +331,7 @@ const PROBLEMS = {
                 title: 'Print Hello World',
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" using println! macro.',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use println! macro',
                     h2: 'println!("Hello, World!");'
@@ -329,6 +346,7 @@ const PROBLEMS = {
                 title: 'Function Definition',
                 difficulty: 'beginner',
                 description: 'Create a function that adds two i32 numbers.',
+                expectedOutput: 'Function evaluates to i32 sum (e.g., add(2,3)=5).',
                 hints: {
                     h1: 'Use fn keyword with type annotations',
                     h2: 'fn add(a: i32, b: i32) -> i32 {\n  a + b\n}'
@@ -346,6 +364,7 @@ const PROBLEMS = {
                 title: 'Struct and Impl',
                 difficulty: 'easy',
                 description: 'Create a struct with implementation block.',
+                expectedOutput: 'Struct and impl are defined and constructor-like method returns an instance.',
                 hints: {
                     h1: 'Use struct for data, impl for methods',
                     h2: 'struct Person {\n  name: String\n}\n\nimpl Person {\n  fn new(name: String) -> Self {\n    Person { name }\n  }\n}'
@@ -368,6 +387,7 @@ const PROBLEMS = {
                 title: 'WRITE Statement',
                 difficulty: 'beginner',
                 description: 'Output "Hello, World!" using WRITE statement.',
+                expectedOutput: 'Hello, World!',
                 hints: {
                     h1: 'Use WRITE: / for output',
                     h2: "WRITE: / 'Hello, World!'."
@@ -382,6 +402,7 @@ const PROBLEMS = {
                 title: 'DATA Declaration',
                 difficulty: 'beginner',
                 description: 'Declare variables using DATA statement.',
+                expectedOutput: 'Variables are declared with DATA ... TYPE ... syntax.',
                 hints: {
                     h1: 'Use DATA: variable TYPE type',
                     h2: "DATA: lv_age TYPE i VALUE 25,\n      lv_name TYPE string VALUE 'Alice'."
@@ -399,6 +420,7 @@ const PROBLEMS = {
                 title: 'ALV Report',
                 difficulty: 'medium',
                 description: 'Create a simple ALV report displaying data.',
+                expectedOutput: 'ALV grid display call is implemented with output table binding.',
                 hints: {
                     h1: 'Use REUSE_ALV_GRID_DISPLAY function module',
                     h2: "CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'\n  TABLES\n    t_outtab = lt_data."
@@ -413,6 +435,7 @@ const PROBLEMS = {
                 title: 'SELECT Statement',
                 difficulty: 'medium',
                 description: 'Read data from database table using SELECT.',
+                expectedOutput: 'SELECT statement fetches rows into an internal table.',
                 hints: {
                     h1: 'Use SELECT...FROM...INTO TABLE',
                     h2: "SELECT * FROM mara INTO TABLE lt_data UP TO 10 ROWS."
@@ -634,6 +657,7 @@ function createPriorityProblem(category, language, id, seq, total) {
         title: step.prompt,
         difficulty,
         description: step.task,
+        expectedOutput: `${toTitleCase(step.prompt)} requirement is satisfied with correct ${language.toUpperCase()} output/behavior.`,
         hints: {
             h1: `${langHintPrefix(language)}${step.concept} 흐름을 먼저 주석으로 정리한 뒤 코드로 옮기세요.`,
             h2: `${langHintPrefix(language)}핵심 시그널(${lead})과 보조 시그널(${follow})을 포함해 정답 로직을 완성하세요.`
@@ -691,6 +715,7 @@ function createGeneratedProblem(category, language, id, seq, total) {
         title: buildGeneratedTitle(action, keyword, category),
         difficulty,
         description: buildGeneratedDescription(language, action, keyword, category),
+        expectedOutput: `Implements ${toTitleCase(action)} ${toTitleCase(keyword)} correctly in ${language.toUpperCase()} and produces expected behavior.`,
         hints: {
             h1: `${guide}${keyword} 개념을 먼저 작은 코드 블록으로 검증하세요.`,
             h2: `${guide}${mainSignal} 및 관련 구문(${signals.slice(1, 3).join(', ') || keyword})을 포함해 입력/처리/출력을 분리하세요.`
@@ -744,6 +769,7 @@ ensureCurriculumDepth();
     title: 'Problem title',
     difficulty: 'beginner' | 'easy' | 'medium' | 'hard',
     description: 'Problem description',
+    expectedOutput: 'Expected output or behavior',
     hints: {
         h1: 'Light hint',
         h2: 'Concrete code example'
