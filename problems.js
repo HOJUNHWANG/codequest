@@ -511,6 +511,8 @@ const LANGUAGE_SIGNALS = {
     java: {
         default: ['class', 'public', ';'],
         basics: ['System.out.println'],
+        variables: ['=', 'int ', 'String '],
+        operators: ['+', '-', '*', '/', '%'],
         conditions: ['if'],
         loops: ['for', 'while'],
         functions: ['return'],
@@ -521,6 +523,8 @@ const LANGUAGE_SIGNALS = {
     python: {
         default: ['def', ':'],
         basics: ['print'],
+        variables: ['='],
+        operators: ['+', '-', '*', '/', '%'],
         conditions: ['if'],
         loops: ['for', 'while'],
         functions: ['return'],
@@ -531,6 +535,8 @@ const LANGUAGE_SIGNALS = {
     typescript: {
         default: ['function', ':'],
         basics: ['console.log'],
+        variables: ['const ', 'let ', '='],
+        operators: ['+', '-', '*', '/', '%'],
         conditions: ['if'],
         loops: ['for', 'while'],
         functions: ['return'],
@@ -541,6 +547,8 @@ const LANGUAGE_SIGNALS = {
     go: {
         default: ['func', '{'],
         basics: ['fmt.Println'],
+        variables: [':=', 'var '],
+        operators: ['+', '-', '*', '/', '%'],
         conditions: ['if'],
         loops: ['for'],
         functions: ['return'],
@@ -551,6 +559,8 @@ const LANGUAGE_SIGNALS = {
     rust: {
         default: ['fn', '{'],
         basics: ['println!'],
+        variables: ['let ', 'let mut '],
+        operators: ['+', '-', '*', '/', '%'],
         conditions: ['if'],
         loops: ['for', 'while'],
         functions: ['->'],
@@ -561,6 +571,8 @@ const LANGUAGE_SIGNALS = {
     abap: {
         default: ['DATA', '.'],
         basics: ['WRITE'],
+        variables: ['DATA', '='],
+        operators: ['+', '-', '*', '/', 'MOD'],
         conditions: ['IF'],
         loops: ['LOOP', 'DO'],
         functions: ['FORM', 'METHOD'],
@@ -651,6 +663,7 @@ function createPriorityProblem(category, language, id, seq, total) {
     const signals = getSignals(language, category, step.concept);
     const lead = signals[0] || step.concept;
     const follow = signals[1] || step.concept;
+    const profile = validationProfile(category, difficulty);
 
     return {
         id,
@@ -663,9 +676,24 @@ function createPriorityProblem(category, language, id, seq, total) {
             h2: `${langHintPrefix(language)}핵심 시그널(${lead})과 보조 시그널(${follow})을 포함해 정답 로직을 완성하세요.`
         },
         tests: [
-            { desc: `Includes core signal (${lead})`, check: (code) => code.toLowerCase().includes(lead.toLowerCase()) },
-            { desc: `Includes secondary signal (${follow})`, check: (code) => code.toLowerCase().includes(follow.toLowerCase()) },
-            { desc: 'Meaningful implementation length', check: (code) => code.trim().length > (difficulty === 'hard' ? 45 : 18) }
+            {
+                desc: `Uses language/category signal (${lead})`,
+                check: (code) => {
+                    const normalized = normalizeCodeForValidation(code).toLowerCase();
+                    return signals.some(signal => normalized.includes(String(signal).toLowerCase()));
+                }
+            },
+            {
+                desc: `Contains executable ${language.toUpperCase()} logic`,
+                check: (code) => hasExecutableShape(language, code) && !isLikelyPlaceholderSubmission(code)
+            },
+            {
+                desc: 'Meaningful implementation length',
+                check: (code) => hasMeaningfulImplementation(code, profile.minChars, {
+                    minLines: profile.minLines,
+                    minTokens: profile.minTokens
+                })
+            }
         ]
     };
 }
@@ -691,10 +719,106 @@ function langHintPrefix(language) {
 
 function getSignals(language, category, keyword) {
     const rules = LANGUAGE_SIGNALS[language] || { default: [] };
-    const selected = [...(rules.default || [])];
+    const selected = [];
+
     if (rules[category]) selected.push(...rules[category]);
-    selected.push(keyword);
+    selected.push(...(rules.default || []));
+
+    const keywordSignal = String(keyword || '').trim();
+    const keywordLooksLikeCode = /[^a-zA-Z]/.test(keywordSignal) || keywordSignal.length <= 4;
+    if (keywordLooksLikeCode) {
+        selected.push(keywordSignal);
+    }
+
     return [...new Set(selected)].filter(Boolean);
+}
+
+function normalizeCodeForValidation(code) {
+    return (code || '')
+        .replace(/\/\*[\s\S]*?\*\//g, ' ')
+        .replace(/(^|\s)#.*$/gm, '$1')
+        .replace(/\/\/.*$/gm, '')
+        .replace(/--.*$/gm, '')
+        .trim();
+}
+
+function hasMeaningfulImplementation(code, minimumChars, options = {}) {
+    const normalized = normalizeCodeForValidation(code);
+    if (!normalized) return false;
+
+    const meaningfulLines = normalized
+        .split('\n')
+        .map(line => line.trim())
+        .filter(Boolean);
+
+    const tokenCount = (normalized.match(/[A-Za-z_][A-Za-z0-9_]*|\d+|[(){}\[\].,:;+\-*/%<>=!&|]/g) || []).length;
+    const minLines = options.minLines || 2;
+    const minTokens = options.minTokens || 8;
+
+    return normalized.length > minimumChars && meaningfulLines.length >= minLines && tokenCount >= minTokens;
+}
+
+function validationProfile(category, difficulty) {
+    const isHard = difficulty === 'hard';
+    const defaultProfile = {
+        minChars: isHard ? 40 : 12,
+        minLines: 2,
+        minTokens: 8
+    };
+
+    if (category === 'variables') {
+        return {
+            minChars: isHard ? 30 : 8,
+            minLines: 1,
+            minTokens: 5
+        };
+    }
+
+    if (category === 'operators') {
+        return {
+            minChars: isHard ? 35 : 10,
+            minLines: 1,
+            minTokens: 6
+        };
+    }
+
+    return defaultProfile;
+}
+
+
+function hasExecutableShape(language, code) {
+    const normalized = normalizeCodeForValidation(code);
+    if (!normalized) return false;
+
+    const executablePatterns = {
+        python: /(def\s+\w+\s*\(|return\b|print\s*\(|if\b|for\b|while\b|=)/,
+        java: /(class\s+\w+|public\s+static\s+void\s+main|return\b|if\b|for\b|while\b|=)/,
+        typescript: /(function\s+\w+\s*\(|const\s+\w+\s*=|return\b|if\b|for\b|while\b|=>)/,
+        go: /(func\s+\w+\s*\(|return\b|if\b|for\b|:=|var\s+\w+)/,
+        rust: /(fn\s+\w+\s*\(|let\s+mut\s+|let\s+\w+|return\b|if\b|for\b|while\b|match\b)/,
+        abap: /(DATA\b|WRITE\b|IF\b|LOOP\b|SELECT\b|CALL\s+FUNCTION\b)/i
+    };
+
+    const pattern = executablePatterns[language] || /(=|return\b|if\b|for\b|while\b|print\s*\()/;
+    return pattern.test(normalized);
+}
+
+function isLikelyPlaceholderSubmission(code) {
+    const normalized = normalizeCodeForValidation(code);
+    if (!normalized) return true;
+
+    const compact = normalized.replace(/\s+/g, ' ').trim().toLowerCase();
+    const placeholders = [
+        'def',
+        'function',
+        'class',
+        'todo',
+        'pass',
+        'return',
+        'write your solution here'
+    ];
+
+    return placeholders.includes(compact);
 }
 
 function createGeneratedProblem(category, language, id, seq, total) {
@@ -709,6 +833,7 @@ function createGeneratedProblem(category, language, id, seq, total) {
     const guide = langHintPrefix(language);
     const signals = getSignals(language, category, keyword);
     const mainSignal = signals[0] || keyword;
+    const profile = validationProfile(category, difficulty);
 
     return {
         id,
@@ -723,11 +848,21 @@ function createGeneratedProblem(category, language, id, seq, total) {
         tests: [
             {
                 desc: `Uses language/category signal (${mainSignal})`,
-                check: (code) => signals.some(signal => code.toLowerCase().includes(signal.toLowerCase()))
+                check: (code) => {
+                    const normalized = normalizeCodeForValidation(code).toLowerCase();
+                    return signals.some(signal => normalized.includes(signal.toLowerCase()));
+                }
+            },
+            {
+                desc: `Contains executable ${language.toUpperCase()} logic`,
+                check: (code) => hasExecutableShape(language, code) && !isLikelyPlaceholderSubmission(code)
             },
             {
                 desc: 'Has enough implementation length',
-                check: (code) => code.trim().length > (difficulty === 'hard' ? 40 : 12)
+                check: (code) => hasMeaningfulImplementation(code, profile.minChars, {
+                    minLines: profile.minLines,
+                    minTokens: profile.minTokens
+                })
             }
         ]
     };
