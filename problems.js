@@ -62,7 +62,7 @@ const PROBLEMS = {
                     { desc: 'Has return statement', check: (c) => c.includes('return') }
                 ]
             },
-            // 여기에 더 많은 문제 추가!
+            // Add more problems here!
         ],
         
         variables: [
@@ -710,18 +710,18 @@ ensureCurriculumDepth();
 // ========================================
 /*
 {
-    id: 번호,
-    title: '문제 제목',
+    id: number,
+    title: 'Problem title',
     difficulty: 'beginner' | 'easy' | 'medium' | 'hard',
-    description: '문제 설명',
+    description: 'Problem description',
     hints: {
-        h1: '가벼운 힌트',
-        h2: '구체적인 코드 예시'
+        h1: 'Light hint',
+        h2: 'Concrete code example'
     },
     tests: [
         { 
-            desc: '테스트 설명', 
-            check: (code) => code.includes('키워드') 
+            desc: 'Test description', 
+            check: (code) => code.includes('keyword') 
         }
     ]
 }

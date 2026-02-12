@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -844,7 +844,7 @@
             }
             
             card.innerHTML = `
-                <div class="problem-number">Problem ${p.id} - ${cat}</div>
+                <div class="problem-number">Problem ${idx + 1} of ${probs.length} • ${CATEGORIES.find(c => c.id === cat)?.name.replace(/^\S+\s+Step\s+\d+:\s*/i, '') || cat}</div>
                 <h2 class="problem-title">${p.title}</h2>
                 <span class="difficulty-badge difficulty-${p.difficulty}">${p.difficulty}</span>
                 <div class="problem-description">${p.description}</div>
@@ -876,15 +876,15 @@
         function toggleHint(level) {
             if (level === 1) {
                 if (hint === 1) {
-                    hint = 0; // 이미 켜져있으면 끄기
+                    hint = 0; // Toggle off if already enabled
                 } else {
-                    hint = 1; // 꺼져있으면 켜기
+                    hint = 1; // Toggle on if currently disabled
                 }
             } else if (level === 2) {
                 if (hint === 2) {
-                    hint = 1; // Hint 2가 켜져있으면 Hint 1만 남기기
+                    hint = 1; // Keep only Hint 1 when Hint 2 is currently visible
                 } else if (hint >= 1) {
-                    hint = 2; // Hint 1이 켜져있으면 Hint 2도 켜기
+                    hint = 2; // Enable Hint 2 when Hint 1 is visible
                 }
             }
             renderProblem();
@@ -998,7 +998,7 @@
                         passed = false;
                         renderProblem();
                     } else {
-                        // 현재 카테고리의 전체 문제 수와 구현된 문제 수 비교
+                        // Compare expected total with currently available problems
                         const category = CATEGORIES.find(c => c.id === cat);
                         const totalProblems = category ? category.total : 30;
                         const availableProblems = probs.length;
