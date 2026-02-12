@@ -66,7 +66,48 @@ const PROBLEMS = {
         ],
         
         variables: [
-            // Variables 카테고리 문제들
+            {
+                id: 10,
+                title: 'Create and Print Variables',
+                difficulty: 'beginner',
+                description: 'Create name and age variables, then print both values.',
+                hints: {
+                    h1: 'Use two variable assignments and print()',
+                    h2: 'name = "Alice"\nage = 20\nprint(name)\nprint(age)'
+                },
+                tests: [
+                    { desc: 'Creates at least one variable', check: (c) => c.includes('=') },
+                    { desc: 'Uses print', check: (c) => c.includes('print') }
+                ]
+            },
+            {
+                id: 11,
+                title: 'Swap Two Variables',
+                difficulty: 'easy',
+                description: 'Swap values of variables a and b.',
+                hints: {
+                    h1: 'Python supports tuple swap syntax',
+                    h2: 'a, b = b, a'
+                },
+                tests: [
+                    { desc: 'Uses variable assignment', check: (c) => c.includes('=') },
+                    { desc: 'Touches both a and b', check: (c) => c.includes('a') && c.includes('b') }
+                ]
+            },
+            {
+                id: 12,
+                title: 'Type Conversion Basics',
+                difficulty: 'easy',
+                description: 'Convert string "42" to number and add 8.',
+                hints: {
+                    h1: 'Use int() for conversion',
+                    h2: 'n = int("42")\nprint(n + 8)'
+                },
+                tests: [
+                    { desc: 'Uses int conversion', check: (c) => /int\s*\(/.test(c) },
+                    { desc: 'Uses addition', check: (c) => c.includes('+') }
+                ]
+            }
         ],
         
         oop: [
@@ -384,6 +425,285 @@ const PROBLEMS = {
         ]
     }
 };
+
+// ========================================
+// AUTO-FILL CURRICULUM (up to category total)
+// ========================================
+
+const SUPPORTED_LANGUAGES = ['java', 'python', 'typescript', 'go', 'rust', 'abap'];
+
+const CATEGORY_KEYWORDS = {
+    basics: ['print', 'output', 'hello', 'main'],
+    variables: ['variable', 'type', 'assignment', 'constant'],
+    operators: ['+', '-', '*', '/', '%'],
+    conditions: ['if', 'else', 'branch', 'condition'],
+    loops: ['for', 'while', 'loop', 'iteration'],
+    functions: ['function', 'parameter', 'return', 'call'],
+    arrays: ['array', 'list', 'index', 'length'],
+    strings: ['string', 'substring', 'split', 'join'],
+    oop: ['class', 'object', 'method', 'constructor'],
+    collections: ['map', 'set', 'dictionary', 'collection'],
+    errors: ['error', 'exception', 'handle', 'try'],
+    files: ['file', 'read', 'write', 'path'],
+    datastructures: ['stack', 'queue', 'tree', 'graph'],
+    algorithms: ['sort', 'search', 'complexity', 'optimize'],
+    recursion: ['recursion', 'base case', 'call stack', 'divide'],
+    async: ['async', 'await', 'concurrency', 'promise'],
+    testing: ['test', 'assert', 'case', 'coverage'],
+    realworld: ['service', 'module', 'workflow', 'integration'],
+    database: ['query', 'table', 'join', 'transaction'],
+    api: ['endpoint', 'request', 'response', 'json'],
+    security: ['auth', 'token', 'hash', 'validation'],
+    performance: ['cache', 'latency', 'throughput', 'profile'],
+    interview: ['two sum', 'binary search', 'dp', 'greedy']
+};
+
+const CATEGORY_ACTIONS = {
+    basics: ['Print', 'Display', 'Show', 'Output'],
+    variables: ['Declare', 'Update', 'Convert', 'Reassign'],
+    operators: ['Calculate', 'Compare', 'Evaluate', 'Compose'],
+    conditions: ['Branch', 'Validate', 'Decide', 'Guard'],
+    loops: ['Iterate', 'Repeat', 'Aggregate', 'Traverse'],
+    functions: ['Define', 'Refactor', 'Compose', 'Extract'],
+    arrays: ['Traverse', 'Filter', 'Transform', 'Slice'],
+    strings: ['Parse', 'Normalize', 'Split', 'Format'],
+    oop: ['Design', 'Encapsulate', 'Instantiate', 'Model'],
+    collections: ['Group', 'Index', 'Map', 'Deduplicate'],
+    errors: ['Detect', 'Recover', 'Handle', 'Protect'],
+    files: ['Load', 'Persist', 'Append', 'Stream'],
+    datastructures: ['Build', 'Push', 'Pop', 'Search'],
+    algorithms: ['Sort', 'Search', 'Optimize', 'Analyze'],
+    recursion: ['Unroll', 'Divide', 'Return', 'Trace'],
+    async: ['Await', 'Schedule', 'Synchronize', 'Fan-out'],
+    testing: ['Assert', 'Mock', 'Verify', 'Refactor'],
+    realworld: ['Implement', 'Integrate', 'Orchestrate', 'Stabilize'],
+    database: ['Select', 'Join', 'Insert', 'Commit'],
+    api: ['Expose', 'Validate', 'Serialize', 'Handle'],
+    security: ['Authenticate', 'Authorize', 'Sanitize', 'Protect'],
+    performance: ['Measure', 'Cache', 'Profile', 'Tune'],
+    interview: ['Solve', 'Optimize', 'Explain', 'Generalize']
+};
+
+const LANGUAGE_SIGNALS = {
+    java: {
+        default: ['class', 'public', ';'],
+        basics: ['System.out.println'],
+        conditions: ['if'],
+        loops: ['for', 'while'],
+        functions: ['return'],
+        oop: ['class', 'new'],
+        collections: ['List', 'Map'],
+        errors: ['try', 'catch']
+    },
+    python: {
+        default: ['def', ':'],
+        basics: ['print'],
+        conditions: ['if'],
+        loops: ['for', 'while'],
+        functions: ['return'],
+        oop: ['class', '__init__'],
+        collections: ['dict', 'set'],
+        errors: ['try', 'except']
+    },
+    typescript: {
+        default: ['function', ':'],
+        basics: ['console.log'],
+        conditions: ['if'],
+        loops: ['for', 'while'],
+        functions: ['return'],
+        oop: ['class', 'constructor'],
+        collections: ['Map', 'Set'],
+        errors: ['try', 'catch']
+    },
+    go: {
+        default: ['func', '{'],
+        basics: ['fmt.Println'],
+        conditions: ['if'],
+        loops: ['for'],
+        functions: ['return'],
+        oop: ['struct'],
+        collections: ['map', '[]'],
+        errors: ['error', 'if err']
+    },
+    rust: {
+        default: ['fn', '{'],
+        basics: ['println!'],
+        conditions: ['if'],
+        loops: ['for', 'while'],
+        functions: ['->'],
+        oop: ['struct', 'impl'],
+        collections: ['Vec', 'HashMap'],
+        errors: ['Result', 'match']
+    },
+    abap: {
+        default: ['DATA', '.'],
+        basics: ['WRITE'],
+        conditions: ['IF'],
+        loops: ['LOOP', 'DO'],
+        functions: ['FORM', 'METHOD'],
+        oop: ['CLASS', 'METHOD'],
+        collections: ['TABLE'],
+        errors: ['MESSAGE', 'SY-SUBRC']
+    }
+};
+
+
+const PRIORITY_CATEGORY_STEPS = {
+    variables: [
+        { concept: 'declare', prompt: '기본 변수 선언과 출력' },
+        { concept: 'reassign', prompt: '값 재할당 후 결과 출력' },
+        { concept: 'constant', prompt: '상수 선언과 사용' },
+        { concept: 'type-convert', prompt: '문자/숫자 형변환' },
+        { concept: 'scope', prompt: '블록 스코프 변수 다루기' },
+        { concept: 'swap', prompt: '두 변수 값 교환' },
+        { concept: 'accumulate', prompt: '변수 누적 업데이트' },
+        { concept: 'input-parse', prompt: '입력값을 변수로 파싱' },
+        { concept: 'state', prompt: '상태 변수 기반 분기' },
+        { concept: 'mini-model', prompt: '여러 변수 조합 로직' }
+    ],
+    operators: [
+        { concept: 'arithmetic', prompt: '사칙연산 결과 계산' },
+        { concept: 'modulo', prompt: '나머지 연산 활용' },
+        { concept: 'comparison', prompt: '비교 연산식 구성' },
+        { concept: 'logical', prompt: '논리 연산 결합' },
+        { concept: 'precedence', prompt: '우선순위와 괄호 제어' },
+        { concept: 'compound', prompt: '복합 대입 연산자 사용' },
+        { concept: 'boolean-chain', prompt: '복합 조건식 단순화' },
+        { concept: 'score-rule', prompt: '점수 규칙 계산식 작성' },
+        { concept: 'discount-rule', prompt: '할인/세금 계산식 작성' },
+        { concept: 'edge-case', prompt: '연산 예외 경계값 처리' }
+    ],
+    conditions: [
+        { concept: 'if-basic', prompt: '단일 if 조건 처리' },
+        { concept: 'if-else', prompt: 'if-else 분기' },
+        { concept: 'elif-chain', prompt: '다중 조건 분기' },
+        { concept: 'nested', prompt: '중첩 조건문' },
+        { concept: 'guard', prompt: '가드 조건으로 빠른 반환' },
+        { concept: 'range-check', prompt: '범위 조건 판정' },
+        { concept: 'category-map', prompt: '값을 등급으로 매핑' },
+        { concept: 'validation', prompt: '입력 유효성 검증' },
+        { concept: 'decision-table', prompt: '의사결정 표 구현' },
+        { concept: 'business-rule', prompt: '실무형 분기 규칙 적용' }
+    ]
+};
+
+function createPriorityProblem(category, language, id, seq, total) {
+    const pack = PRIORITY_CATEGORY_STEPS[category];
+    if (!pack || seq > pack.length) return null;
+
+    const step = pack[seq - 1];
+    const difficulty = difficultyByPosition(seq - 1, total);
+    const categoryName = CATEGORIES.find(c => c.id === category)?.name || category;
+    const signals = getSignals(language, category, step.concept);
+    const lead = signals[0] || step.concept;
+    const follow = signals[1] || step.concept;
+
+    return {
+        id,
+        title: `[Core] ${categoryName} ${seq}: ${step.prompt}`,
+        difficulty,
+        description: `${categoryName} 핵심 ${seq}단계: ${step.prompt}를 ${language.toUpperCase()}로 구현하세요.`,
+        hints: {
+            h1: `${langHintPrefix(language)}${step.concept} 흐름을 먼저 주석으로 정리한 뒤 코드로 옮기세요.`,
+            h2: `${langHintPrefix(language)}핵심 시그널(${lead})과 보조 시그널(${follow})을 포함해 정답 로직을 완성하세요.`
+        },
+        tests: [
+            { desc: `Includes core signal (${lead})`, check: (code) => code.toLowerCase().includes(lead.toLowerCase()) },
+            { desc: `Includes secondary signal (${follow})`, check: (code) => code.toLowerCase().includes(follow.toLowerCase()) },
+            { desc: 'Meaningful implementation length', check: (code) => code.trim().length > (difficulty === 'hard' ? 45 : 18) }
+        ]
+    };
+}
+
+function difficultyByPosition(index, total) {
+    const r = (index + 1) / total;
+    if (r <= 0.4) return 'beginner';
+    if (r <= 0.75) return 'easy';
+    if (r <= 0.95) return 'medium';
+    return 'hard';
+}
+
+function langHintPrefix(language) {
+    return {
+        java: 'Java 문법으로 ',
+        python: 'Python 문법으로 ',
+        typescript: 'TypeScript 문법으로 ',
+        go: 'Go 문법으로 ',
+        rust: 'Rust 문법으로 ',
+        abap: 'ABAP 문법으로 '
+    }[language] || '';
+}
+
+function getSignals(language, category, keyword) {
+    const rules = LANGUAGE_SIGNALS[language] || { default: [] };
+    const selected = [...(rules.default || [])];
+    if (rules[category]) selected.push(...rules[category]);
+    selected.push(keyword);
+    return [...new Set(selected)].filter(Boolean);
+}
+
+function createGeneratedProblem(category, language, id, seq, total) {
+    const priority = createPriorityProblem(category, language, id, seq, total);
+    if (priority) return priority;
+
+    const keywordSet = CATEGORY_KEYWORDS[category] || ['logic', 'code', 'test', 'solve'];
+    const actionSet = CATEGORY_ACTIONS[category] || ['Build', 'Solve', 'Refine', 'Practice'];
+    const keyword = keywordSet[(seq - 1) % keywordSet.length];
+    const action = actionSet[(seq - 1) % actionSet.length];
+    const difficulty = difficultyByPosition(seq - 1, total);
+    const categoryName = CATEGORIES.find(c => c.id === category)?.name || category;
+    const guide = langHintPrefix(language);
+    const signals = getSignals(language, category, keyword);
+    const mainSignal = signals[0] || keyword;
+
+    return {
+        id,
+        title: `${action} ${categoryName} ${seq}`,
+        difficulty,
+        description: `${categoryName} 단계 ${seq}: ${keyword} 중심의 문제를 ${language.toUpperCase()}로 해결하세요.`,
+        hints: {
+            h1: `${guide}${keyword} 개념을 먼저 작은 코드 블록으로 검증하세요.`,
+            h2: `${guide}${mainSignal} 및 관련 구문(${signals.slice(1, 3).join(', ') || keyword})을 포함해 입력/처리/출력을 분리하세요.`
+        },
+        tests: [
+            {
+                desc: `Uses language/category signal (${mainSignal})`,
+                check: (code) => signals.some(signal => code.toLowerCase().includes(signal.toLowerCase()))
+            },
+            {
+                desc: 'Has enough implementation length',
+                check: (code) => code.trim().length > (difficulty === 'hard' ? 40 : 12)
+            }
+        ]
+    };
+}
+
+function ensureCurriculumDepth() {
+    SUPPORTED_LANGUAGES.forEach(language => {
+        if (!PROBLEMS[language]) PROBLEMS[language] = {};
+
+        CATEGORIES.forEach(category => {
+            const total = category.total;
+            if (!PROBLEMS[language][category.id]) {
+                PROBLEMS[language][category.id] = [];
+            }
+
+            const items = PROBLEMS[language][category.id];
+            const usedIds = new Set(items.map(p => p.id));
+            let nextId = items.length > 0 ? Math.max(...items.map(p => p.id)) + 1 : 1;
+
+            while (items.length < total) {
+                while (usedIds.has(nextId)) nextId++;
+                const seq = items.length + 1;
+                items.push(createGeneratedProblem(category.id, language, nextId, seq, total));
+                usedIds.add(nextId);
+                nextId++;
+            }
+        });
+    });
+}
+
+ensureCurriculumDepth();
 
 // ========================================
 // 문제 추가 템플릿
