@@ -124,19 +124,29 @@
         }
 
         .change-lang-btn {
-            padding: 8px 16px;
-            background: var(--accent-primary);
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #7eb6d4 0%, #90c8e8 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(126, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .change-lang-btn:hover {
-            background: var(--accent-secondary);
+            background: linear-gradient(135deg, #f4a882 0%, #f4c882 100%);
+            box-shadow: 0 4px 12px rgba(244, 168, 130, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .change-lang-btn:active {
+            transform: translateY(0);
         }
 
         .user-stats { display: flex; gap: 12px; }
@@ -183,6 +193,8 @@
             transition: all 0.2s ease;
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
         }
 
         .category-item:hover { background: var(--bg-hover); }
@@ -195,7 +207,12 @@
             color: white;
         }
 
-        .category-name { font-weight: 600; font-size: 14px; }
+        .category-name { 
+            font-weight: 600; 
+            font-size: 14px;
+            flex: 1;
+            line-height: 1.4;
+        }
         .category-progress {
             font-size: 11px;
             color: var(--text-muted);
@@ -203,6 +220,8 @@
             background: var(--bg-secondary);
             padding: 3px 8px;
             border-radius: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .progress-bar-container {
@@ -570,7 +589,9 @@
                 <div class="logo" onclick="goHome()">✦ CodeQuest</div>
                 <div class="header-center">
                     <div class="current-language" id="currentLang"></div>
-                    <button class="change-lang-btn" onclick="showLanguageSelector()">Change Language</button>
+                    <button class="change-lang-btn" onclick="showLanguageSelector()">
+                        <span>🔄</span> Change Language
+                    </button>
                 </div>
                 <div class="user-stats">
                     <div class="stat-item">
@@ -633,6 +654,9 @@
         </div>
     </div>
 
+    <!-- Load Problems Database -->
+    <script src="problems.js"></script>
+    
     <script>
         // Language configurations
         const LANGS = {
@@ -644,308 +668,8 @@
             abap: { name: 'ABAP', icon: '🔶', starter: '* Write your solution here\n\n' }
         };
 
-        // 23 Categories - 670 total problems
-        const CATEGORIES = [
-            { id: 'basics', name: '🌱 Step 1: First Steps', total: 30 },
-            { id: 'variables', name: '📦 Step 2: Variables & Types', total: 30 },
-            { id: 'operators', name: '➕ Step 3: Operators', total: 30 },
-            { id: 'conditions', name: '🔀 Step 4: Conditionals', total: 30 },
-            { id: 'loops', name: '🔄 Step 5: Loops', total: 30 },
-            { id: 'functions', name: '⚡ Step 6: Functions', total: 30 },
-            { id: 'arrays', name: '📋 Step 7: Arrays & Lists', total: 30 },
-            { id: 'strings', name: '📝 Step 8: Strings', total: 30 },
-            { id: 'oop', name: '🎨 Step 9: OOP Basics', total: 30 },
-            { id: 'collections', name: '🗂️ Step 10: Collections', total: 30 },
-            { id: 'errors', name: '🚨 Step 11: Error Handling', total: 30 },
-            { id: 'files', name: '📁 Step 12: File I/O', total: 30 },
-            { id: 'datastructures', name: '🏗️ Step 13: Data Structures', total: 30 },
-            { id: 'algorithms', name: '🧮 Step 14: Algorithms', total: 30 },
-            { id: 'recursion', name: '🔁 Step 15: Recursion', total: 30 },
-            { id: 'async', name: '⚙️ Step 16: Async/Concurrency', total: 30 },
-            { id: 'testing', name: '🧪 Step 17: Testing', total: 30 },
-            { id: 'realworld', name: '💼 Step 18: Real-World Projects', total: 30 },
-            { id: 'database', name: '🗄️ Step 19: Database Operations', total: 30 },
-            { id: 'api', name: '🌐 Step 20: API Development', total: 20 },
-            { id: 'security', name: '🔒 Step 21: Security', total: 15 },
-            { id: 'performance', name: '⚡ Step 22: Performance', total: 15 },
-            { id: 'interview', name: '🚀 Step 23: Big Tech Interviews', total: 50 }
-        ];
+        // CATEGORIES and PROBLEMS are loaded from problems.js
 
-        // Problem Database (Representative problems for each language/category)
-        const PROBLEMS = {
-            java: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'Print Hello World',
-                        difficulty: 'beginner',
-                        description: 'Write a program that prints "Hello, World!" to the console.',
-                        hints: { h1: 'Use System.out.println()', h2: 'System.out.println("Hello, World!");' },
-                        tests: [
-                            { desc: 'Uses System.out.println', check: (c) => c.includes('System.out.println') },
-                            { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Add Two Numbers',
-                        difficulty: 'beginner',
-                        description: 'Create a method that adds two integers.',
-                        hints: { h1: 'Define method with int return type', h2: 'public static int add(int a, int b) { return a + b; }' },
-                        tests: [
-                            { desc: 'Has method definition', check: (c) => /public|private/.test(c) },
-                            { desc: 'Uses + operator', check: (c) => c.includes('+') },
-                            { desc: 'Has return statement', check: (c) => c.includes('return') }
-                        ]
-                    }
-                ],
-                oop: [
-                    {
-                        id: 50,
-                        title: 'Create a Class',
-                        difficulty: 'easy',
-                        description: 'Create a Person class with name, age fields and constructor.',
-                        hints: { h1: 'Use class keyword with private fields', h2: 'public class Person {\n  private String name;\n  private int age;\n  public Person(String n, int a) { name = n; age = a; }\n}' },
-                        tests: [
-                            { desc: 'Has class definition', check: (c) => c.includes('class') },
-                            { desc: 'Has constructor', check: (c) => /public\s+\w+\s*\(/.test(c) }
-                        ]
-                    }
-                ],
-                interview: [
-                    {
-                        id: 200,
-                        title: 'Two Sum',
-                        difficulty: 'medium',
-                        description: 'Return indices of two numbers that add up to target.',
-                        hints: { h1: 'Use HashMap to store seen numbers', h2: 'Map<Integer, Integer> map = new HashMap<>();\nfor (int i = 0; i < nums.length; i++) {\n  int c = target - nums[i];\n  if (map.containsKey(c)) return new int[] {map.get(c), i};\n  map.put(nums[i], i);\n}' },
-                        tests: [
-                            { desc: 'Uses HashMap', check: (c) => /HashMap|Map/.test(c) },
-                            { desc: 'Has loop', check: (c) => /for|while/.test(c) }
-                        ]
-                    }
-                ]
-            },
-            python: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'Print Hello World',
-                        difficulty: 'beginner',
-                        description: 'Write code that prints "Hello, World!"',
-                        hints: { h1: 'Use print() function', h2: 'print("Hello, World!")' },
-                        tests: [
-                            { desc: 'Uses print', check: (c) => c.includes('print') },
-                            { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Add Two Numbers',
-                        difficulty: 'beginner',
-                        description: 'Create a function that adds two numbers.',
-                        hints: { h1: 'Use def keyword', h2: 'def add(a, b):\n    return a + b' },
-                        tests: [
-                            { desc: 'Has function definition', check: (c) => c.includes('def') },
-                            { desc: 'Has return', check: (c) => c.includes('return') }
-                        ]
-                    }
-                ],
-                oop: [
-                    {
-                        id: 50,
-                        title: 'Create a Class',
-                        difficulty: 'easy',
-                        description: 'Create Person class with __init__ method.',
-                        hints: { h1: 'Use class keyword', h2: 'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age' },
-                        tests: [
-                            { desc: 'Has class', check: (c) => c.includes('class') },
-                            { desc: 'Has __init__', check: (c) => c.includes('__init__') }
-                        ]
-                    }
-                ],
-                interview: [
-                    {
-                        id: 200,
-                        title: 'Two Sum',
-                        difficulty: 'medium',
-                        description: 'Return indices of two numbers that sum to target.',
-                        hints: { h1: 'Use dictionary', h2: 'def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i' },
-                        tests: [
-                            { desc: 'Uses dict', check: (c) => /\{|\}|dict/.test(c) },
-                            { desc: 'Has loop', check: (c) => /for|while/.test(c) }
-                        ]
-                    }
-                ]
-            },
-            typescript: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'Print Hello World',
-                        difficulty: 'beginner',
-                        description: 'Print "Hello, World!" to console.',
-                        hints: { h1: 'Use console.log()', h2: 'console.log("Hello, World!");' },
-                        tests: [
-                            { desc: 'Uses console.log', check: (c) => c.includes('console.log') },
-                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Function with Types',
-                        difficulty: 'beginner',
-                        description: 'Create typed function that adds numbers.',
-                        hints: { h1: 'Specify types', h2: 'function add(a: number, b: number): number { return a + b; }' },
-                        tests: [
-                            { desc: 'Has type annotations', check: (c) => /:\s*number/.test(c) },
-                            { desc: 'Has return', check: (c) => c.includes('return') }
-                        ]
-                    }
-                ],
-                oop: [
-                    {
-                        id: 50,
-                        title: 'Create a Class',
-                        difficulty: 'easy',
-                        description: 'Create Person class with constructor.',
-                        hints: { h1: 'Use class keyword', h2: 'class Person {\n  constructor(public name: string, public age: number) {}\n}' },
-                        tests: [
-                            { desc: 'Has class', check: (c) => c.includes('class') },
-                            { desc: 'Has constructor', check: (c) => c.includes('constructor') }
-                        ]
-                    }
-                ]
-            },
-            go: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'Print Hello World',
-                        difficulty: 'beginner',
-                        description: 'Print "Hello, World!"',
-                        hints: { h1: 'Use fmt.Println()', h2: 'fmt.Println("Hello, World!")' },
-                        tests: [
-                            { desc: 'Uses fmt.Println', check: (c) => /fmt\.Println|fmt\.Printf/.test(c) },
-                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Function Definition',
-                        difficulty: 'beginner',
-                        description: 'Create function that adds two integers.',
-                        hints: { h1: 'func name(params) returnType', h2: 'func add(a int, b int) int {\n  return a + b\n}' },
-                        tests: [
-                            { desc: 'Has func', check: (c) => c.includes('func') },
-                            { desc: 'Has return', check: (c) => c.includes('return') }
-                        ]
-                    }
-                ],
-                oop: [
-                    {
-                        id: 50,
-                        title: 'Struct and Method',
-                        difficulty: 'easy',
-                        description: 'Create Person struct with method.',
-                        hints: { h1: 'Use type and struct', h2: 'type Person struct {\n  Name string\n  Age int\n}\nfunc (p Person) Greet() string {\n  return "Hello"\n}' },
-                        tests: [
-                            { desc: 'Has struct', check: (c) => c.includes('struct') },
-                            { desc: 'Has method', check: (c) => /func\s*\(.*\)/.test(c) }
-                        ]
-                    }
-                ]
-            },
-            rust: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'Print Hello World',
-                        difficulty: 'beginner',
-                        description: 'Print "Hello, World!" using println!',
-                        hints: { h1: 'Use println! macro', h2: 'println!("Hello, World!");' },
-                        tests: [
-                            { desc: 'Uses println!', check: (c) => c.includes('println!') },
-                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Function Definition',
-                        difficulty: 'beginner',
-                        description: 'Create function that adds two i32.',
-                        hints: { h1: 'fn name(params) -> type', h2: 'fn add(a: i32, b: i32) -> i32 {\n  a + b\n}' },
-                        tests: [
-                            { desc: 'Has fn', check: (c) => c.includes('fn') },
-                            { desc: 'Has type annotation', check: (c) => /i32|->/.test(c) }
-                        ]
-                    }
-                ],
-                oop: [
-                    {
-                        id: 50,
-                        title: 'Struct and Impl',
-                        difficulty: 'easy',
-                        description: 'Create struct with implementation.',
-                        hints: { h1: 'Use struct and impl', h2: 'struct Person { name: String }\nimpl Person {\n  fn new(name: String) -> Self {\n    Person { name }\n  }\n}' },
-                        tests: [
-                            { desc: 'Has struct', check: (c) => c.includes('struct') },
-                            { desc: 'Has impl', check: (c) => c.includes('impl') }
-                        ]
-                    }
-                ]
-            },
-            abap: {
-                basics: [
-                    {
-                        id: 1,
-                        title: 'WRITE Statement',
-                        difficulty: 'beginner',
-                        description: 'Output "Hello, World!" using WRITE.',
-                        hints: { h1: 'Use WRITE: /', h2: "WRITE: / 'Hello, World!'." },
-                        tests: [
-                            { desc: 'Uses WRITE', check: (c) => c.toUpperCase().includes('WRITE') },
-                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'DATA Declaration',
-                        difficulty: 'beginner',
-                        description: 'Declare variables using DATA.',
-                        hints: { h1: 'Use DATA: var TYPE type', h2: "DATA: lv_age TYPE i VALUE 25." },
-                        tests: [
-                            { desc: 'Uses DATA', check: (c) => c.toUpperCase().includes('DATA') },
-                            { desc: 'Uses TYPE', check: (c) => c.toUpperCase().includes('TYPE') }
-                        ]
-                    }
-                ],
-                realworld: [
-                    {
-                        id: 100,
-                        title: 'ALV Report',
-                        difficulty: 'medium',
-                        description: 'Create simple ALV report.',
-                        hints: { h1: 'Use REUSE_ALV function', h2: "CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'\n  TABLES\n    t_outtab = lt_data." },
-                        tests: [
-                            { desc: 'Uses ALV function', check: (c) => /REUSE_ALV|CL_SALV/i.test(c) },
-                            { desc: 'Has CALL FUNCTION', check: (c) => c.toUpperCase().includes('CALL FUNCTION') }
-                        ]
-                    },
-                    {
-                        id: 101,
-                        title: 'SELECT Statement',
-                        difficulty: 'medium',
-                        description: 'Read data from database table.',
-                        hints: { h1: 'Use SELECT...FROM...INTO', h2: "SELECT * FROM mara INTO TABLE lt_data UP TO 10 ROWS." },
-                        tests: [
-                            { desc: 'Uses SELECT', check: (c) => c.toUpperCase().includes('SELECT') },
-                            { desc: 'Uses FROM', check: (c) => c.toUpperCase().includes('FROM') }
-                        ]
-                    }
-                ]
-            }
-        };
 
         // State
         let lang = null;
@@ -1054,10 +778,10 @@
                 hintHTML = `
                     <div class="hint-section">
                         <button class="hint-toggle" onclick="toggleHint(1)">
-                            💡 ${hint >= 1 ? 'Hint 1 ✓' : 'Hint 1'}
+                            ${hint >= 1 ? '✓ Hide Hint 1' : '💡 Show Hint 1'}
                         </button>
                         <button class="hint-toggle" onclick="toggleHint(2)" ${hint < 1 ? 'disabled' : ''}>
-                            💡💡 ${hint >= 2 ? 'Hint 2 ✓' : 'Hint 2'}
+                            ${hint >= 2 ? '✓ Hide Hint 2' : '💡💡 Show Hint 2'}
                         </button>
                     </div>
                     ${hint >= 1 ? '<div class="hint-content show">' + p.hints.h1 + '</div>' : ''}
@@ -1110,8 +834,19 @@
         }
 
         function toggleHint(level) {
-            if (level === 1) hint = Math.max(hint, 1);
-            else if (level === 2 && hint >= 1) hint = 2;
+            if (level === 1) {
+                if (hint === 1) {
+                    hint = 0; // 이미 켜져있으면 끄기
+                } else {
+                    hint = 1; // 꺼져있으면 켜기
+                }
+            } else if (level === 2) {
+                if (hint === 2) {
+                    hint = 1; // Hint 2가 켜져있으면 Hint 1만 남기기
+                } else if (hint >= 1) {
+                    hint = 2; // Hint 1이 켜져있으면 Hint 2도 켜기
+                }
+            }
             renderProblem();
         }
 
@@ -1217,7 +952,16 @@
                         passed = false;
                         renderProblem();
                     } else {
-                        alert('🎉 You completed all available problems in this category!');
+                        // 현재 카테고리의 전체 문제 수와 구현된 문제 수 비교
+                        const category = CATEGORIES.find(c => c.id === cat);
+                        const totalProblems = category ? category.total : 30;
+                        const availableProblems = probs.length;
+                        
+                        if (availableProblems < totalProblems) {
+                            alert(`🎉 Great! You completed ${availableProblems} available problems!\n\n📚 ${totalProblems - availableProblems} more problems coming soon in this category!`);
+                        } else {
+                            alert('🎉 Perfect! You completed all problems in this category!');
+                        }
                     }
                 }, 500);
             } else {
