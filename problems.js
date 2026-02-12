@@ -39,13 +39,13 @@ const PROBLEMS = {
                 difficulty: 'beginner',
                 description: 'Write code that prints "Hello, World!"',
                 expectedOutput: 'Hello, World!',
+                validation: { mode: 'output-only' },
                 hints: {
-                    h1: 'Use the print() function',
-                    h2: 'print("Hello, World!")'
+                    h1: '정답 출력 결과만 맞으면 됩니다. 구현 방식은 자유입니다.',
+                    h2: '예: print("Hello, World!")'
                 },
                 tests: [
-                    { desc: 'Uses print function', check: (c) => c.includes('print') },
-                    { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -163,13 +163,13 @@ const PROBLEMS = {
                 difficulty: 'beginner',
                 description: 'Write a program that prints "Hello, World!" to console.',
                 expectedOutput: 'Hello, World!',
+                validation: { mode: 'output-only' },
                 hints: {
-                    h1: 'Use System.out.println() method',
-                    h2: 'System.out.println("Hello, World!");'
+                    h1: '결과 출력이 맞으면 통과합니다. 특정 문법 강제는 없습니다.',
+                    h2: '예: System.out.println("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Uses System.out.println', check: (c) => c.includes('System.out.println') },
-                    { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -220,13 +220,13 @@ const PROBLEMS = {
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" to console.',
                 expectedOutput: 'Hello, World!',
+                validation: { mode: 'output-only' },
                 hints: {
-                    h1: 'Use console.log() function',
-                    h2: 'console.log("Hello, World!");'
+                    h1: '출력 결과만 일치하면 어떤 방식이든 괜찮습니다.',
+                    h2: '예: console.log("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Uses console.log', check: (c) => c.includes('console.log') },
-                    { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -276,13 +276,13 @@ const PROBLEMS = {
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" using fmt package.',
                 expectedOutput: 'Hello, World!',
+                validation: { mode: 'output-only' },
                 hints: {
-                    h1: 'Use fmt.Println() function',
-                    h2: 'fmt.Println("Hello, World!")'
+                    h1: '핵심은 출력 결과입니다. 구현 방식은 자유입니다.',
+                    h2: '예: fmt.Println("Hello, World!")'
                 },
                 tests: [
-                    { desc: 'Uses fmt.Println', check: (c) => /fmt\.Println|fmt\.Printf/.test(c) },
-                    { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -332,13 +332,13 @@ const PROBLEMS = {
                 difficulty: 'beginner',
                 description: 'Print "Hello, World!" using println! macro.',
                 expectedOutput: 'Hello, World!',
+                validation: { mode: 'output-only' },
                 hints: {
-                    h1: 'Use println! macro',
-                    h2: 'println!("Hello, World!");'
+                    h1: '정답은 출력 결과 기준으로 채점됩니다.',
+                    h2: '예: println!("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Uses println! macro', check: (c) => c.includes('println!') },
-                    { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {

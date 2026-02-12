@@ -870,7 +870,17 @@
             }
 
             let testCasesHTML = '';
-            if (p.tests && p.tests.length > 0) {
+            const isOutputOnly = p.validation && p.validation.mode === 'output-only';
+            if (isOutputOnly) {
+                testCasesHTML = `
+                    <div class="test-cases-section ${showTests ? 'show' : ''}">
+                        <div class="test-case-title">📋 Test Cases:</div>
+                        <div class="test-case-preview">
+                            <strong>Test 1:</strong> 최종 출력 결과가 Expected Output과 일치하는지 확인
+                        </div>
+                    </div>
+                `;
+            } else if (p.tests && p.tests.length > 0) {
                 testCasesHTML = `
                     <div class="test-cases-section ${showTests ? 'show' : ''}">
                         <div class="test-case-title">📋 Test Cases:</div>
@@ -972,8 +982,50 @@
             }
         }
 
+        function normalizeOutputText(value) {
+            return String(value || '')
+                .replace(/["'`]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase();
+        }
+
+        function evaluateExpectedOutput(problem, code) {
+            const expected = normalizeOutputText(problem && problem.expectedOutput);
+            const source = normalizeOutputText(code);
+            if (!expected) {
+                return false;
+            }
+            return source.includes(expected);
+        }
+
         function evaluateTests(problem, code) {
-            if (!problem || !problem.tests || problem.tests.length === 0) {
+            if (!problem) {
+                return {
+                    allPass: false,
+                    html: '<div class="test-case failed">❌ No problem selected.</div>'
+                };
+            }
+
+            const isOutputOnly = problem.validation && problem.validation.mode === 'output-only';
+            if (isOutputOnly) {
+                const outputPass = evaluateExpectedOutput(problem, code);
+                const html = `<div class="test-case ${outputPass ? 'passed' : 'failed'}">
+                    ${outputPass ? '✅' : '❌'} Test 1: Expected output과 일치하는 결과를 만든다
+                </div>`;
+
+                return {
+                    allPass: outputPass,
+                    html: outputPass
+                        ? html + `<div class="improvement-tip">
+                            <div class="improvement-title">💡 All Tests Passed!</div>
+                            <div>Great job! You can now submit your solution.</div>
+                        </div>`
+                        : html
+                };
+            }
+
+            if (!problem.tests || problem.tests.length === 0) {
                 return {
                     allPass: false,
                     html: '<div class="test-case failed">❌ No tests available.</div>'
