@@ -5,11 +5,49 @@
 ## ✨ 새로운 기능
 
 ### 🎯 v4.0 Major Updates
-- **670+ 문제**: 기초부터 Big Tech 인터뷰까지
+- **670+ 문제 구조**: 기초부터 Big Tech 인터뷰까지
 - **23개 단계**: 체계적인 학습 경로
-- **언어 전환 버튼**: 학습 중 언어 쉽게 변경
-- **테스트 케이스 미리보기**: 문제당 테스트 조건 확인
-- **ABAP 실무 특화**: SAP 모듈별 실전 예제
+- **언어 전환 버튼**: 학습 중 언어 쉽게 변경 🔄
+- **테스트 케이스 미리보기**: 문제당 테스트 조건 확인 📋
+- **힌트 토글**: 켰다 끌 수 있는 2단계 힌트 💡
+- **ABAP 실무 특화**: SAP 모듈별 실전 예제 🔶
+- **모듈화**: problems.js 분리로 문제 관리 용이
+
+## 📁 파일 구조
+
+```
+codequest/
+├── index.html              # 메인 UI
+├── problems.js             # 문제 데이터베이스 ⭐
+├── PROBLEM_TEMPLATE.js     # 문제 템플릿
+├── add_problem.py          # 문제 생성 도구
+├── HOW_TO_ADD_PROBLEMS.md  # 문제 추가 가이드 📝
+└── README.md              # 이 파일
+```
+
+## 📝 문제 추가 방법
+
+### ⚡ 빠른 시작
+
+1. **problems.js** 열기
+2. **PROBLEM_TEMPLATE.js** 에서 템플릿 복사
+3. 내용 수정 후 추가
+4. Git push!
+
+### 📖 자세한 가이드
+
+**HOW_TO_ADD_PROBLEMS.md** 파일 참고
+- 3가지 추가 방법
+- 언어별 예제
+- 테스트 작성 팁
+- 체크리스트
+
+### 🛠️ 도구 사용
+
+```bash
+python3 add_problem.py
+# 대화형으로 문제 생성!
+```
 
 ## 📚 학습 경로 (23 Steps, 670 Problems)
 
@@ -111,18 +149,24 @@ codequest/
 
 ## 🚀 GitHub Pages 배포
 
-### 업로드 방법
+### 필수 파일 (둘 다 업로드!)
 ```bash
-git add index.html problems.js README.md
-git commit -m "v4.0: Professional Edition with 670+ problems"
+git add index.html problems.js
+git commit -m "v4.0: Professional Edition"
 git push origin main
 ```
 
-### 설정
-Settings → Pages → Source: main branch
+### 선택 파일 (문제 추가용)
+```bash
+git add PROBLEM_TEMPLATE.js add_problem.py HOW_TO_ADD_PROBLEMS.md
+git commit -m "Add problem creation tools"
+git push origin main
+```
 
-### URL
-`https://your-username.github.io/codequest`
+### ⚠️ 중요!
+- **index.html**과 **problems.js** 둘 다 필수
+- problems.js 없으면 작동 안 함
+- 2-3분 후 페이지 반영
 
 ## 🆕 v4.0 변경사항
 
