@@ -295,6 +295,31 @@
             line-height: 1.7;
         }
 
+        .expected-output-box {
+            margin: 0 0 18px 0;
+            padding: 14px;
+            border-radius: 8px;
+            background: #eef7ff;
+            border-left: 3px solid var(--accent-info);
+        }
+
+        .expected-output-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .expected-output-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #1e40af;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
         .difficulty-badge {
             padding: 5px 12px;
             border-radius: 6px;
@@ -685,6 +710,20 @@
         let passed = false;
         let progress = {};
 
+        function currentProblemKey() {
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
+            if (!p || !lang) return null;
+            return 'code_' + lang + '_' + cat + '_' + p.id;
+        }
+
+        function saveDraftCode() {
+            const editor = document.getElementById('codeEditor');
+            const key = currentProblemKey();
+            if (!editor || !key) return;
+            localStorage.setItem(key, editor.value);
+        }
+
         function getCategoryProblems(categoryId) {
             return PROBLEMS[lang] && PROBLEMS[lang][categoryId] || [];
         }
@@ -801,7 +840,8 @@
             renderProblem();
         }
 
-        function renderProblem() {
+        function renderProblem(options = {}) {
+            const { preserveSubmissionState = false } = options;
             const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
             const p = probs[idx];
             
@@ -848,6 +888,10 @@
                 <h2 class="problem-title">${p.title}</h2>
                 <span class="difficulty-badge difficulty-${p.difficulty}">${p.difficulty}</span>
                 <div class="problem-description">${p.description}</div>
+                <div class="expected-output-box">
+                    <div class="expected-output-title">Expected Output</div>
+                    <div class="expected-output-value">${p.expectedOutput || 'Refer to the problem statement and produce the requested result.'}</div>
+                </div>
                 <div class="problem-actions">
                     <button class="action-btn-small" onclick="toggleTestCases()">
                         ${showTests ? '✓ Hide' : '📋 Show'} Test Cases
@@ -868,12 +912,17 @@
             document.getElementById('codeEditor').value = saved || LANGS[lang].starter;
             document.getElementById('editorHeader').innerHTML = LANGS[lang].icon + ' ' + LANGS[lang].name + ' Editor';
             
-            passed = false;
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('output').classList.remove('show');
+            if (!preserveSubmissionState) {
+                passed = false;
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('output').classList.remove('show');
+            } else {
+                document.getElementById('submitBtn').disabled = !passed;
+            }
         }
 
         function toggleHint(level) {
+            saveDraftCode();
             if (level === 1) {
                 if (hint === 1) {
                     hint = 0; // Toggle off if already enabled
@@ -887,15 +936,17 @@
                     hint = 2; // Enable Hint 2 when Hint 1 is visible
                 }
             }
-            renderProblem();
+            renderProblem({ preserveSubmissionState: true });
         }
 
         function toggleTestCases() {
+            saveDraftCode();
             showTests = !showTests;
-            renderProblem();
+            renderProblem({ preserveSubmissionState: true });
         }
 
         function previousProblem() {
+            saveDraftCode();
             if (idx > 0) {
                 idx--;
                 hint = 0;
@@ -905,6 +956,7 @@
         }
 
         function nextProblem() {
+            saveDraftCode();
             const probs = getCategoryProblems(cat);
             const current = probs[idx];
             if (current && !isProblemSolved(cat, current.id)) {
@@ -920,46 +972,65 @@
             }
         }
 
-        function runTests() {
-            const code = document.getElementById('codeEditor').value.trim();
-            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
-            const p = probs[idx];
-            
-            if (!code) {
-                showOutput('<div class="test-case failed">❌ Please write some code first!</div>');
-                return;
+        function evaluateTests(problem, code) {
+            if (!problem || !problem.tests || problem.tests.length === 0) {
+                return {
+                    allPass: false,
+                    html: '<div class="test-case failed">❌ No tests available.</div>'
+                };
             }
-            
-            if (!p || !p.tests) {
-                showOutput('<div class="test-case failed">❌ No tests available.</div>');
-                return;
-            }
-            
+
             let html = '';
             let allPass = true;
-            
-            p.tests.forEach((t, i) => {
-                const testPassed = t.check(code);
+
+            problem.tests.forEach((t, i) => {
+                let testPassed = false;
+                let testError = null;
+
+                try {
+                    testPassed = !!t.check(code);
+                } catch (err) {
+                    testError = err;
+                    testPassed = false;
+                }
+
                 allPass = allPass && testPassed;
-                
+
+                const detail = testError ? ` <small>(validator error: ${testError.message || 'unknown'})</small>` : '';
                 html += `<div class="test-case ${testPassed ? 'passed' : 'failed'}">
-                    ${testPassed ? '✅' : '❌'} Test ${i + 1}: ${t.desc}
+                    ${testPassed ? '✅' : '❌'} Test ${i + 1}: ${t.desc}${detail}
                 </div>`;
             });
-            
+
             if (allPass) {
                 html += `<div class="improvement-tip">
                     <div class="improvement-title">💡 All Tests Passed!</div>
                     <div>Great job! You can now submit your solution.</div>
                 </div>`;
             }
-            
-            passed = allPass;
-            document.getElementById('submitBtn').disabled = !allPass;
-            showOutput(html);
-            
-            const key = 'code_' + lang + '_' + cat + '_' + p.id;
-            localStorage.setItem(key, code);
+
+            return { allPass, html };
+        }
+
+        function runTests() {
+            const code = document.getElementById('codeEditor').value.trim();
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
+
+            if (!code) {
+                showOutput('<div class="test-case failed">❌ Please write some code first!</div>');
+                return;
+            }
+
+            const result = evaluateTests(p, code);
+            passed = result.allPass;
+            document.getElementById('submitBtn').disabled = !result.allPass;
+            showOutput(result.html);
+
+            if (p) {
+                const key = 'code_' + lang + '_' + cat + '_' + p.id;
+                localStorage.setItem(key, code);
+            }
         }
 
         function showOutput(html) {
@@ -968,13 +1039,24 @@
         }
 
         function submit() {
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
+            const code = document.getElementById('codeEditor').value.trim();
+
             if (!passed) {
                 alert('❌ Please run tests and pass all test cases first!');
                 return;
             }
+
+            const recheck = evaluateTests(p, code);
+            if (!recheck.allPass) {
+                passed = false;
+                document.getElementById('submitBtn').disabled = true;
+                showOutput(recheck.html);
+                alert('❌ 코드가 마지막 테스트 상태와 달라졌거나 검증에 실패했습니다. 다시 테스트를 통과해 주세요.');
+                return;
+            }
             
-            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
-            const p = probs[idx];
             const key = cat + '_' + p.id;
             const pr = progress[lang];
             
@@ -1014,6 +1096,14 @@
                 alert('ℹ️ You have already completed this problem!');
             }
         }
+
+        document.getElementById('codeEditor').addEventListener('input', () => {
+            saveDraftCode();
+            if (passed) {
+                passed = false;
+                document.getElementById('submitBtn').disabled = true;
+            }
+        });
 
         init();
     </script>
