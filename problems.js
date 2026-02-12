@@ -52,8 +52,8 @@ const PROBLEMS = {
                 id: 2,
                 title: 'Add Two Numbers',
                 difficulty: 'beginner',
-                description: 'Create a function that adds two numbers.',
-                expectedOutput: 'When called with sample inputs 2 and 3, returns 5.',
+                description: 'Create a function that adds two numbers. The function should return the sum for sample inputs such as 2 and 3.',
+                expectedOutput: '5',
                 hints: {
                     h1: 'Use def keyword to define a function',
                     h2: 'def add(a, b):\n    return a + b'
@@ -72,8 +72,8 @@ const PROBLEMS = {
                 id: 10,
                 title: 'Create and Print Variables',
                 difficulty: 'beginner',
-                description: 'Create name and age variables, then print both values.',
-                expectedOutput: 'First line: name value, second line: age value.',
+                description: 'Create name and age variables, then print both values on separate lines (first name, then age).',
+                expectedOutput: 'Alice\n20',
                 hints: {
                     h1: 'Use two variable assignments and print()',
                     h2: 'name = "Alice"\nage = 20\nprint(name)\nprint(age)'
@@ -87,8 +87,8 @@ const PROBLEMS = {
                 id: 11,
                 title: 'Swap Two Variables',
                 difficulty: 'easy',
-                description: 'Swap values of variables a and b.',
-                expectedOutput: 'After swap, a should contain original b and b should contain original a.',
+                description: 'Swap values of variables a and b so that each variable holds the other\'s original value.',
+                expectedOutput: 'a=2, b=1',
                 hints: {
                     h1: 'Python supports tuple swap syntax',
                     h2: 'a, b = b, a'
@@ -120,8 +120,8 @@ const PROBLEMS = {
                 id: 50,
                 title: 'Create a Class',
                 difficulty: 'easy',
-                description: 'Create a Person class with __init__ method.',
-                expectedOutput: 'A Person object can be created with name and age properties.',
+                description: 'Create a Person class with __init__ method so an object can be created with name and age properties.',
+                expectedOutput: 'Person("Alice", 20)',
                 hints: {
                     h1: 'Use class keyword and define __init__ method',
                     h2: 'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age'
@@ -176,8 +176,8 @@ const PROBLEMS = {
                 id: 2,
                 title: 'Add Two Numbers',
                 difficulty: 'beginner',
-                description: 'Create a method that adds two integers.',
-                expectedOutput: 'Method returns the sum of two integers (e.g., add(2,3)=5).',
+                description: 'Create a method that adds two integers and returns their sum for sample inputs like 2 and 3.',
+                expectedOutput: '5',
                 hints: {
                     h1: 'Define a method with int return type and two int parameters',
                     h2: 'public static int add(int a, int b) { return a + b; }'
@@ -195,8 +195,8 @@ const PROBLEMS = {
                 id: 50,
                 title: 'Create a Class',
                 difficulty: 'easy',
-                description: 'Create a Person class with fields and constructor.',
-                expectedOutput: 'A Person instance can be constructed with name and age.',
+                description: 'Create a Person class with fields and constructor so a Person instance can be created with name and age.',
+                expectedOutput: 'new Person("Alice", 20)',
                 hints: {
                     h1: 'Use class keyword with private fields and public constructor',
                     h2: 'public class Person {\n  private String name;\n  private int age;\n  public Person(String n, int a) {\n    name = n;\n    age = a;\n  }\n}'
@@ -233,8 +233,8 @@ const PROBLEMS = {
                 id: 2,
                 title: 'Function with Types',
                 difficulty: 'beginner',
-                description: 'Create a typed function that adds two numbers.',
-                expectedOutput: 'Function returns numeric sum (e.g., add(2,3)=5).',
+                description: 'Create a typed function that adds two numbers and returns their numeric sum for sample inputs like 2 and 3.',
+                expectedOutput: '5',
                 hints: {
                     h1: 'Specify parameter types and return type',
                     h2: 'function add(a: number, b: number): number { return a + b; }'
@@ -251,8 +251,8 @@ const PROBLEMS = {
                 id: 50,
                 title: 'Create a Class',
                 difficulty: 'easy',
-                description: 'Create a Person class with typed properties.',
-                expectedOutput: 'Class can instantiate a Person with typed name and age.',
+                description: 'Create a Person class with typed properties so it can instantiate a Person with typed name and age.',
+                expectedOutput: 'new Person("Alice", 20)',
                 hints: {
                     h1: 'Use class keyword with constructor',
                     h2: 'class Person {\n  constructor(public name: string, public age: number) {}\n}'
@@ -289,8 +289,8 @@ const PROBLEMS = {
                 id: 2,
                 title: 'Function Definition',
                 difficulty: 'beginner',
-                description: 'Create a function that adds two integers.',
-                expectedOutput: 'Function returns sum of inputs (e.g., add(2,3)=5).',
+                description: 'Create a function that adds two integers and returns the sum for sample inputs like 2 and 3.',
+                expectedOutput: '5',
                 hints: {
                     h1: 'Use func keyword with parameter types',
                     h2: 'func add(a int, b int) int {\n  return a + b\n}'
@@ -307,8 +307,8 @@ const PROBLEMS = {
                 id: 50,
                 title: 'Struct and Method',
                 difficulty: 'easy',
-                description: 'Create a Person struct with a method.',
-                expectedOutput: 'Person struct exists and method call returns a greeting string.',
+                description: 'Create a Person struct with a method that returns a greeting string when called.',
+                expectedOutput: 'Hello',
                 hints: {
                     h1: 'Use type and struct keywords',
                     h2: 'type Person struct {\n  Name string\n  Age int\n}\n\nfunc (p Person) Greet() string {\n  return "Hello"\n}'
@@ -345,8 +345,8 @@ const PROBLEMS = {
                 id: 2,
                 title: 'Function Definition',
                 difficulty: 'beginner',
-                description: 'Create a function that adds two i32 numbers.',
-                expectedOutput: 'Function evaluates to i32 sum (e.g., add(2,3)=5).',
+                description: 'Create a function that adds two i32 numbers and evaluates to their sum for sample inputs like 2 and 3.',
+                expectedOutput: '5',
                 hints: {
                     h1: 'Use fn keyword with type annotations',
                     h2: 'fn add(a: i32, b: i32) -> i32 {\n  a + b\n}'
@@ -363,8 +363,8 @@ const PROBLEMS = {
                 id: 50,
                 title: 'Struct and Impl',
                 difficulty: 'easy',
-                description: 'Create a struct with implementation block.',
-                expectedOutput: 'Struct and impl are defined and constructor-like method returns an instance.',
+                description: 'Create a struct with implementation block where a constructor-like method returns an instance.',
+                expectedOutput: 'Person::new("Alice")',
                 hints: {
                     h1: 'Use struct for data, impl for methods',
                     h2: 'struct Person {\n  name: String\n}\n\nimpl Person {\n  fn new(name: String) -> Self {\n    Person { name }\n  }\n}'
