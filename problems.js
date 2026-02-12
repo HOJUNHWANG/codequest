@@ -605,7 +605,7 @@ function createPriorityProblem(category, language, id, seq, total) {
     const step = pack[seq - 1];
     const difficulty = difficultyByPosition(seq - 1, total);
     const categoryName = cleanCategoryName(CATEGORIES.find(c => c.id === category)?.name || category);
-    const signals = getSignals(language, category, step.concept);
+    const signals = getPrioritySignals(language, category, step.concept);
     const lead = signals[0] || step.concept;
     const follow = signals[1] || step.concept;
 
@@ -650,6 +650,12 @@ function getSignals(language, category, keyword) {
     const selected = [...(rules.default || [])];
     if (rules[category]) selected.push(...rules[category]);
     selected.push(keyword);
+    return [...new Set(selected)].filter(Boolean);
+}
+
+function getPrioritySignals(language, category, concept) {
+    const rules = LANGUAGE_SIGNALS[language] || { default: [] };
+    const selected = [concept, ...(rules[category] || []), ...(rules.default || [])];
     return [...new Set(selected)].filter(Boolean);
 }
 
