@@ -41,11 +41,11 @@ const PROBLEMS = {
                 expectedOutput: 'Hello, World!',
                 validation: { mode: 'output-only' },
                 hints: {
-                    h1: '정답 출력 결과만 맞으면 됩니다. 구현 방식은 자유입니다.',
-                    h2: '예: print("Hello, World!")'
+                    h1: 'Focus on producing the exact target output. Any valid approach is acceptable.',
+                    h2: 'Example: print("Hello, World!")'
                 },
                 tests: [
-                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Prints a string that matches the expected output', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -165,11 +165,11 @@ const PROBLEMS = {
                 expectedOutput: 'Hello, World!',
                 validation: { mode: 'output-only' },
                 hints: {
-                    h1: '결과 출력이 맞으면 통과합니다. 특정 문법 강제는 없습니다.',
-                    h2: '예: System.out.println("Hello, World!");'
+                    h1: 'Focus on producing the exact target output. Any valid approach is acceptable.',
+                    h2: 'Example: System.out.println("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Prints a string that matches the expected output', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -222,11 +222,11 @@ const PROBLEMS = {
                 expectedOutput: 'Hello, World!',
                 validation: { mode: 'output-only' },
                 hints: {
-                    h1: '출력 결과만 일치하면 어떤 방식이든 괜찮습니다.',
-                    h2: '예: console.log("Hello, World!");'
+                    h1: 'Focus on producing the exact target output. Any valid approach is acceptable.',
+                    h2: 'Example: console.log("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Prints a string that matches the expected output', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -278,11 +278,11 @@ const PROBLEMS = {
                 expectedOutput: 'Hello, World!',
                 validation: { mode: 'output-only' },
                 hints: {
-                    h1: '핵심은 출력 결과입니다. 구현 방식은 자유입니다.',
-                    h2: '예: fmt.Println("Hello, World!")'
+                    h1: 'Focus on producing the exact target output. Any valid approach is acceptable.',
+                    h2: 'Example: fmt.Println("Hello, World!")'
                 },
                 tests: [
-                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Prints a string that matches the expected output', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -334,11 +334,11 @@ const PROBLEMS = {
                 expectedOutput: 'Hello, World!',
                 validation: { mode: 'output-only' },
                 hints: {
-                    h1: '정답은 출력 결과 기준으로 채점됩니다.',
-                    h2: '예: println!("Hello, World!");'
+                    h1: 'Focus on producing the exact target output. Any valid approach is acceptable.',
+                    h2: 'Example: println!("Hello, World!");'
                 },
                 tests: [
-                    { desc: 'Expected output과 일치하는 문자열을 출력한다', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                    { desc: 'Prints a string that matches the expected output', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
                 ]
             },
             {
@@ -584,6 +584,88 @@ const LANGUAGE_SIGNALS = {
 
 
 const PRIORITY_CATEGORY_STEPS = {
+    basics: [
+        {
+            concept: 'single-output',
+            prompt: 'Print a Number',
+            task: 'Print the number 100 using one output statement.',
+            expectedOutput: '100',
+            supportHint: 'Use one simple output statement and avoid extra text.',
+            decisiveHint: 'A correct solution is a single print/write call that outputs exactly 100.'
+        },
+        {
+            concept: 'multi-line-output',
+            prompt: 'Print Two Lines',
+            task: 'Print "Hello" on the first line and "World" on the second line.',
+            expectedOutput: 'Hello\nWorld',
+            supportHint: 'Think in order: first line output, then second line output.',
+            decisiveHint: 'Use two output statements (or one statement with a newline) to print Hello then World.'
+        },
+        {
+            concept: 'expression-output',
+            prompt: 'Print Calculation Result',
+            task: 'Compute 3 + 4 and print the result.',
+            expectedOutput: '7',
+            supportHint: 'Do the arithmetic first, then output the computed value.',
+            decisiveHint: 'A direct solution is to output the expression 3 + 4 so the program prints 7.'
+        },
+        {
+            concept: 'string-number-output',
+            prompt: 'Print Label and Value',
+            task: 'Print the exact text: Score: 90',
+            expectedOutput: 'Score: 90',
+            supportHint: 'Match spaces, colon, and capitalization exactly.',
+            decisiveHint: 'Output one exact string literal: Score: 90.'
+        },
+        {
+            concept: 'variable-output',
+            prompt: 'Store Then Print',
+            task: 'Store "CodeQuest" in a variable and print it.',
+            expectedOutput: 'CodeQuest',
+            supportHint: 'Create a variable first, then output that variable.',
+            decisiveHint: 'Assign CodeQuest to a variable and pass that variable to print/write output.'
+        },
+        {
+            concept: 'input-echo',
+            prompt: 'Echo Input',
+            task: 'Read one input value and print the same value.',
+            expectedOutput: 'Matches the single input value exactly.',
+            supportHint: 'No transformation is needed—just return what you receive.',
+            decisiveHint: 'Read one value into a variable, then output that variable immediately.'
+        },
+        {
+            concept: 'string-join',
+            prompt: 'Join Two Words',
+            task: 'Print the exact text: Hello CodeQuest',
+            expectedOutput: 'Hello CodeQuest',
+            supportHint: 'You can build the final text from two parts or print it directly.',
+            decisiveHint: 'Concatenate/join "Hello" and "CodeQuest" with one space, then output the result.'
+        },
+        {
+            concept: 'format-output',
+            prompt: 'Formatted Output',
+            task: 'Given name="Alex" and age=20, print: Alex is 20',
+            expectedOutput: 'Alex is 20',
+            supportHint: 'Use a formatting approach that combines text and variable values.',
+            decisiveHint: 'Create name and age variables, then output a formatted sentence: Alex is 20.'
+        },
+        {
+            concept: 'boolean-output',
+            prompt: 'Print Comparison Result',
+            task: 'Compare 5 > 3 and print the boolean result.',
+            expectedOutput: 'true',
+            supportHint: 'Write the comparison expression first and output the result.',
+            decisiveHint: 'Output the result of 5 > 3 directly (language-specific boolean text is acceptable).'
+        },
+        {
+            concept: 'main-entry-output',
+            prompt: 'Main Entry Output',
+            task: 'Write executable code that runs from the language entry point and prints "Ready".',
+            expectedOutput: 'Ready',
+            supportHint: 'Use the normal runnable entry structure for your language.',
+            decisiveHint: 'Define the language entry point (if needed) and place one output statement for Ready.'
+        }
+    ],
     variables: [
         { concept: 'declare', prompt: 'Declare and Print Variables', task: 'Create variables for a name and age, then print both values.' },
         { concept: 'reassign', prompt: 'Reassign a Variable', task: 'Assign a value to a variable, update it, and print the final value.' },
@@ -637,6 +719,7 @@ function toTitleCase(text) {
 
 function buildGeneratedTitle(action, keyword, category) {
     if (category === 'basics' && keyword === 'main') return 'Main Entry Point';
+    if (category === 'basics') return `Basic Output Practice: ${toTitleCase(keyword)}`;
     return `${toTitleCase(action)} ${toTitleCase(keyword)}`;
 }
 
@@ -665,15 +748,18 @@ function createPriorityProblem(category, language, id, seq, total) {
     const follow = signals[1] || step.concept;
     const profile = validationProfile(category, difficulty);
 
+    const supportHint = step.supportHint || `Start by outlining the ${step.concept} flow in brief comments before writing full code.`;
+    const decisiveHint = step.decisiveHint || `Use the key signal (${lead}) and decisive signal (${follow}) to complete a correct implementation.`;
+
     return {
         id,
         title: step.prompt,
         difficulty,
         description: step.task,
-        expectedOutput: `${toTitleCase(step.prompt)} requirement is satisfied with correct ${language.toUpperCase()} output/behavior.`,
+        expectedOutput: step.expectedOutput || `Requirement: ${step.task}`,
         hints: {
-            h1: `${langHintPrefix(language)}${step.concept} 흐름을 먼저 주석으로 정리한 뒤 코드로 옮기세요.`,
-            h2: `${langHintPrefix(language)}핵심 시그널(${lead})과 보조 시그널(${follow})을 포함해 정답 로직을 완성하세요.`
+            h1: `${langHintPrefix(language)}${supportHint}`,
+            h2: `${langHintPrefix(language)}${decisiveHint}`
         },
         tests: [
             {
@@ -708,12 +794,12 @@ function difficultyByPosition(index, total) {
 
 function langHintPrefix(language) {
     return {
-        java: 'Java 문법으로 ',
-        python: 'Python 문법으로 ',
-        typescript: 'TypeScript 문법으로 ',
-        go: 'Go 문법으로 ',
-        rust: 'Rust 문법으로 ',
-        abap: 'ABAP 문법으로 '
+        java: 'In Java syntax, ',
+        python: 'In Python syntax, ',
+        typescript: 'In TypeScript syntax, ',
+        go: 'In Go syntax, ',
+        rust: 'In Rust syntax, ',
+        abap: 'In ABAP syntax, '
     }[language] || '';
 }
 
@@ -835,15 +921,20 @@ function createGeneratedProblem(category, language, id, seq, total) {
     const mainSignal = signals[0] || keyword;
     const profile = validationProfile(category, difficulty);
 
+    const isHelloStyleBasic = category === 'basics' && /hello|print|output/i.test(`${action} ${keyword}`);
+    const expectedOutput = isHelloStyleBasic
+        ? 'Hello, World!'
+        : `Requirement: ${buildGeneratedDescription(language, action, keyword, category)}`;
+
     return {
         id,
         title: buildGeneratedTitle(action, keyword, category),
         difficulty,
         description: buildGeneratedDescription(language, action, keyword, category),
-        expectedOutput: `Implements ${toTitleCase(action)} ${toTitleCase(keyword)} correctly in ${language.toUpperCase()} and produces expected behavior.`,
+        expectedOutput,
         hints: {
-            h1: `${guide}${keyword} 개념을 먼저 작은 코드 블록으로 검증하세요.`,
-            h2: `${guide}${mainSignal} 및 관련 구문(${signals.slice(1, 3).join(', ') || keyword})을 포함해 입력/처리/출력을 분리하세요.`
+            h1: `${guide}Start with a minimal working draft that targets one clear requirement from the prompt.`,
+            h2: `${guide}Implement the final answer with ${mainSignal} plus ${signals.slice(1, 3).join(', ') || keyword}, and make sure the output matches the expected result exactly.`
         },
         tests: [
             {
@@ -896,7 +987,7 @@ function ensureCurriculumDepth() {
 ensureCurriculumDepth();
 
 // ========================================
-// 문제 추가 템플릿
+// Problem Add Template
 // ========================================
 /*
 {

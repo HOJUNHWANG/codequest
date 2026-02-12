@@ -824,7 +824,7 @@
 
         function selectCat(c, e) {
             if (!canAccessCategory(c)) {
-                alert('🔒 이전 스텝(카테고리)의 모든 문제를 완료해야 다음 스텝으로 이동할 수 있습니다.');
+                alert('🔒 You must complete all problems in the previous step (category) before moving to the next one.');
                 return;
             }
 
@@ -876,7 +876,7 @@
                     <div class="test-cases-section ${showTests ? 'show' : ''}">
                         <div class="test-case-title">📋 Test Cases:</div>
                         <div class="test-case-preview">
-                            <strong>Test 1:</strong> 최종 출력 결과가 Expected Output과 일치하는지 확인
+                            <strong>Test 1:</strong> Checks whether your final output matches the Expected Output.
                         </div>
                     </div>
                 `;
@@ -970,7 +970,7 @@
             const probs = getCategoryProblems(cat);
             const current = probs[idx];
             if (current && !isProblemSolved(cat, current.id)) {
-                alert('🔒 현재 문제를 먼저 제출 완료해야 다음 문제로 이동할 수 있습니다.');
+                alert('🔒 You must submit and pass the current problem before moving to the next one.');
                 return;
             }
 
@@ -1011,7 +1011,7 @@
             if (isOutputOnly) {
                 const outputPass = evaluateExpectedOutput(problem, code);
                 const html = `<div class="test-case ${outputPass ? 'passed' : 'failed'}">
-                    ${outputPass ? '✅' : '❌'} Test 1: Expected output과 일치하는 결과를 만든다
+                    ${outputPass ? '✅' : '❌'} Test 1: Produces output that matches the Expected Output
                 </div>`;
 
                 return {
@@ -1105,7 +1105,7 @@
                 passed = false;
                 document.getElementById('submitBtn').disabled = true;
                 showOutput(recheck.html);
-                alert('❌ 코드가 마지막 테스트 상태와 달라졌거나 검증에 실패했습니다. 다시 테스트를 통과해 주세요.');
+                alert('❌ Your code changed since the last passing test or validation failed. Please pass the tests again.');
                 return;
             }
             
