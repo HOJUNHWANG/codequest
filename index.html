@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeQuest - Learn to Code Step by Step</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>CodeQuest - Professional Coding Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #f5f9fd;
@@ -14,9 +14,7 @@
             --bg-hover: #e8f4fb;
             --accent-primary: #7eb6d4;
             --accent-secondary: #f4a882;
-            --accent-tertiary: #a8c5d9;
             --accent-success: #86c9a8;
-            --accent-warning: #f4a882;
             --accent-error: #e8a8a0;
             --accent-info: #90c8e8;
             --text-primary: #2c3e50;
@@ -26,1719 +24,1207 @@
             --border-light: #f0f5f9;
             --shadow-sm: 0 2px 6px rgba(126, 182, 212, 0.08);
             --shadow-md: 0 4px 12px rgba(126, 182, 212, 0.12);
-            --shadow-lg: 0 8px 24px rgba(126, 182, 212, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f5f9fd 0%, #fef5ed 50%, #fefbf7 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Animated Background */
-        .bg-decoration {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        .container { max-width: 1600px; margin: 0 auto; padding: 24px; }
+        .hidden { display: none !important; }
+
+        .language-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
         }
 
-        .float-shape {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: float 20s infinite ease-in-out;
+        .selection-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--accent-primary);
         }
 
-        .float-shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, #7eb6d4, transparent);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
+        .selection-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
         }
 
-        .float-shape:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #f4a882, transparent);
-            top: 50%;
-            right: -150px;
-            animation-delay: 5s;
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 900px;
         }
 
-        .float-shape:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, #e8d5b7, transparent);
-            bottom: -100px;
-            left: 30%;
-            animation-delay: 10s;
+        .language-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(20px, -20px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.9); }
-            75% { transform: translate(20px, 20px) scale(1.05); }
+        .language-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .language-icon { font-size: 64px; margin-bottom: 16px; }
+        .language-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .language-desc { font-size: 14px; color: var(--text-secondary); }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 32px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-md);
+            padding: 20px 28px;
+            margin-bottom: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .logo {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            cursor: pointer;
+        }
+
+        .header-center {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .user-stats {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+        .current-language {
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 8px 16px;
+            border-radius: 8px;
         }
 
+        .change-lang-btn {
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .change-lang-btn:hover {
+            background: var(--accent-secondary);
+        }
+
+        .user-stats { display: flex; gap: 12px; }
         .stat-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
         }
+        .stat-value { font-weight: 700; color: var(--accent-primary); font-size: 16px; }
+        .stat-label { color: var(--text-secondary); font-size: 13px; }
 
-        .stat-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
+        .main-layout { display: flex; gap: 24px; }
 
-        .stat-icon {
-            font-size: 20px;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            color: var(--accent-primary);
-            font-size: 18px;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Main Layout */
-        .main-layout {
-            display: flex;
-            gap: 24px;
-            min-height: calc(100vh - 200px);
-        }
-
-        /* Sidebar */
         .sidebar {
-            width: 320px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 28px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-md);
+            width: 300px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
             height: fit-content;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
             position: sticky;
-            top: 20px;
+            top: 24px;
         }
 
         .section-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .category-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 28px;
-        }
-
+        .category-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
         .category-item {
-            padding: 14px 18px;
-            background: var(--bg-card);
-            border-radius: 12px;
+            padding: 12px 14px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: all 0.2s ease;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        .category-item:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--accent-primary);
-            transform: translateX(4px);
-        }
-
+        .category-item:hover { background: var(--bg-hover); }
         .category-item.active {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.15));
-            border-color: var(--accent-primary);
-            box-shadow: var(--shadow-sm);
+            background: var(--accent-primary);
+            color: white;
+        }
+        .category-item.active .category-progress {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
         }
 
-        .category-name {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 15px;
-        }
-
+        .category-name { font-weight: 600; font-size: 14px; }
         .category-progress {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
-            background: rgba(139, 92, 246, 0.1);
-            padding: 4px 10px;
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            padding: 3px 8px;
+            border-radius: 6px;
         }
 
         .progress-bar-container {
-            margin-top: 24px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
         }
 
         .progress-label {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .progress-bar {
             width: 100%;
-            height: 12px;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 20px;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 20px;
-            transition: width 0.6s ease;
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            background: var(--accent-primary);
+            transition: width 0.4s ease;
         }
 
         .progress-text {
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--accent-primary);
             margin-top: 8px;
         }
 
-        /* Content Area */
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+        .content-area { flex: 1; }
 
-        /* Problem Card */
         .problem-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-        }
-
-        .problem-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
-
-        .problem-title-section {
-            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
         }
 
         .problem-number {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
             font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .problem-title {
-            font-size: 28px;
-            font-weight: 800;
+        .problem-title { 
+            font-size: 26px; 
+            font-weight: 800; 
             margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
         }
 
-        .problem-meta {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
+        .problem-description { 
+            color: var(--text-secondary); 
+            margin: 16px 0 20px 0;
+            line-height: 1.7;
         }
 
         .difficulty-badge {
-            padding: 6px 16px;
-            border-radius: 10px;
-            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 12px;
         }
 
-        .difficulty-beginner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
-            color: var(--accent-success);
-            border: 2px solid var(--accent-success);
-        }
+        .difficulty-beginner { background: #dcfce7; color: #166534; }
+        .difficulty-easy { background: #dbeafe; color: #1e40af; }
+        .difficulty-medium { background: #fef3c7; color: #92400e; }
+        .difficulty-hard { background: #fee2e2; color: #991b1b; }
 
-        .difficulty-easy {
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.2));
-            color: var(--accent-info);
-            border: 2px solid var(--accent-info);
-        }
-
-        .difficulty-medium {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2));
-            color: var(--accent-warning);
-            border: 2px solid var(--accent-warning);
-        }
-
-        .difficulty-hard {
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(225, 29, 72, 0.2));
-            color: var(--accent-error);
-            border: 2px solid var(--accent-error);
-        }
-
-        .problem-tags {
+        .problem-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 16px;
             flex-wrap: wrap;
         }
 
-        .tag {
-            padding: 6px 12px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            border-radius: 8px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 600;
+        .action-btn-small {
+            padding: 8px 14px;
+            background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
-        }
-
-        .hint-section {
-            margin-top: 16px;
-        }
-
-        .hint-toggle {
-            padding: 12px 20px;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.2));
-            border: 2px solid var(--accent-info);
-            border-radius: 12px;
-            color: var(--accent-info);
-            font-weight: 700;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
         }
 
-        .hint-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
+        .action-btn-small:hover:not(:disabled) {
+            background: var(--bg-hover);
+        }
+
+        .action-btn-small:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .hint-section { margin-top: 16px; display: flex; gap: 10px; }
+        .hint-toggle {
+            padding: 10px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--accent-info);
+            transition: all 0.2s ease;
+        }
+
+        .hint-toggle:hover:not(:disabled) {
+            background: var(--bg-hover);
+        }
+
+        .hint-toggle:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
         }
 
         .hint-content {
             display: none;
-            margin-top: 16px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(59, 130, 246, 0.1));
-            border-left: 4px solid var(--accent-info);
-            border-radius: 12px;
-            animation: slideDown 0.3s ease;
+            margin-top: 12px;
+            padding: 16px;
+            background: #eff6ff;
+            border-left: 3px solid var(--accent-info);
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
         }
+        .hint-content.show { display: block; }
 
-        .hint-content.show {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hint-title {
-            font-weight: 700;
-            color: var(--accent-info);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .hint-text {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 14px;
-        }
-
-        .problem-description {
-            line-height: 1.9;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-size: 15px;
-        }
-
-        .example-box {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
-            border-left: 4px solid var(--accent-primary);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 16px 0;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            border: 2px solid var(--border-color);
-        }
-
-        .example-label {
-            font-weight: 700;
-            color: var(--accent-primary);
-            margin-bottom: 4px;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .nav-btn {
-            padding: 10px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .nav-btn:hover:not(:disabled) {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* Editor Section */
-        .editor-section {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-        }
-
-        .editor-tabs {
-            display: flex;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
-            border-bottom: 2px solid var(--border-color);
-            padding: 16px 16px 0 16px;
-            gap: 10px;
-            overflow-x: auto;
-        }
-
-        .editor-tab {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 12px 12px 0 0;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border: 2px solid transparent;
-            position: relative;
-        }
-
-        .editor-tab:hover {
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--text-primary);
-        }
-
-        .editor-tab.active {
-            background: var(--bg-secondary);
-            color: var(--accent-primary);
-            border-color: var(--border-color);
-            border-bottom-color: var(--bg-secondary);
-        }
-
-        .editor-tab.default-lang::after {
-            content: '★';
-            position: absolute;
-            top: 4px;
-            right: 6px;
-            font-size: 11px;
-            color: #fbbf24;
-        }
-
-        .tab-actions {
-            display: flex;
-            gap: 4px;
-            margin-left: 6px;
-        }
-
-        .tab-action-btn {
-            padding: 2px 7px;
-            border-radius: 5px;
-            font-size: 12px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            background: transparent;
-        }
-
-        .tab-set-default {
-            color: var(--text-muted);
-        }
-
-        .tab-set-default:hover {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .tab-close:hover {
-            background: var(--accent-error);
-            color: white;
-        }
-
-        .add-editor-btn {
-            margin-left: auto;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-            font-size: 14px;
-        }
-
-        .add-editor-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-        }
-
-        .editor-content {
+        .test-cases-section {
             display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: #f0fdf4;
+            border-left: 3px solid var(--accent-success);
+            border-radius: 8px;
         }
 
-        .editor-content.active {
-            display: block;
+        .test-cases-section.show { display: block; }
+
+        .test-case-preview {
+            margin-top: 8px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .test-case-title {
+            font-weight: 700;
+            color: var(--accent-success);
+            margin-bottom: 8px;
+        }
+
+        .editor-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .editor-header {
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .code-editor {
             width: 100%;
             min-height: 400px;
-            padding: 24px;
-            background: #f8fafc;
+            padding: 20px;
+            background: #fafbfc;
             border: none;
-            color: var(--text-primary);
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            line-height: 1.8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
             resize: vertical;
+            color: var(--text-primary);
         }
 
         .code-editor:focus {
-            outline: 3px solid var(--accent-primary);
-            outline-offset: -3px;
+            outline: 2px solid var(--accent-primary);
+            outline-offset: -2px;
             background: white;
         }
 
         .editor-actions {
             display: flex;
             justify-content: space-between;
-            padding: 20px 24px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
-            border-top: 2px solid var(--border-color);
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
         }
 
         .action-btn {
-            padding: 12px 28px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 12px;
-            font-weight: 700;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 13px;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-run {
             background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
-            border: 2px solid var(--border-color);
         }
 
         .btn-run:hover {
             background: var(--accent-info);
             color: white;
             border-color: var(--accent-info);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, var(--accent-success), #059669);
+            background: var(--accent-success);
             color: white;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            border: 2px solid transparent;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        .btn-submit:hover:not(:disabled) {
+            background: #059669;
         }
 
-        /* Output Section */
+        .btn-submit:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
+        }
+
         .output-section {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            margin-top: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
             display: none;
         }
 
-        .output-section.show {
-            display: block;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .output-section.show { display: block; }
 
         .output-header {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--accent-primary);
-        }
-
-        .output-content {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            font-size: 13px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            border: 2px solid var(--border-color);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(139, 92, 246, 0.2);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 36px;
-            max-width: 600px;
-            width: 90%;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .language-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .lang-option {
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
+            font-size: 16px;
             font-weight: 700;
-            font-size: 14px;
-        }
-
-        .lang-option:hover {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.15));
-            border-color: var(--accent-primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .lang-option.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .lang-option.disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .btn-cancel {
-            padding: 12px 28px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
+            margin-bottom: 12px;
             color: var(--text-primary);
-            cursor: pointer;
+        }
+
+        .test-case {
+            margin-bottom: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        .test-case.passed { 
+            border-left-color: var(--accent-success); 
+            background: #f0fdf4; 
+        }
+
+        .test-case.failed { 
+            border-left-color: var(--accent-error); 
+            background: #fef2f2; 
+        }
+
+        .improvement-tip {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fef3c7;
+            border-left: 3px solid var(--accent-secondary);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .improvement-title {
             font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            color: #92400e;
+            margin-bottom: 4px;
         }
 
-        .btn-cancel:hover {
-            background: var(--bg-primary);
-            transform: translateY(-2px);
-        }
-
-        /* Success Animation */
-        .success-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .success-overlay.show {
-            display: flex;
-        }
-
-        .success-content {
+        .coming-soon {
             text-align: center;
-            animation: bounceIn 0.6s ease;
+            padding: 40px;
+            color: var(--text-muted);
+            font-style: italic;
         }
 
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.08);
-            }
-            70% {
-                transform: scale(0.92);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .success-icon {
-            font-size: 140px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-        }
-
-        .success-title {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: white;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .success-message {
-            font-size: 24px;
-            color: white;
-            opacity: 0.95;
-            font-weight: 600;
-        }
-
-        /* Responsive */
         @media (max-width: 1024px) {
-            .main-layout {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                position: static;
-            }
-
-            .editor-tabs {
-                flex-wrap: wrap;
-            }
-
-            .logo {
-                font-size: 24px;
-            }
-
-            .problem-title {
-                font-size: 22px;
-            }
+            .language-grid { grid-template-columns: repeat(2, 1fr); }
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; position: static; max-height: none; }
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(139, 92, 246, 0.05);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+        @media (max-width: 640px) {
+            .language-grid { grid-template-columns: 1fr; }
+            .selection-title { font-size: 32px; }
+            header { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-decoration">
-        <div class="float-shape"></div>
-        <div class="float-shape"></div>
-        <div class="float-shape"></div>
-    </div>
-    
     <div class="container">
-        <header>
-            <div class="logo">
-                <span>✨</span>
-                CodeQuest
-            </div>
-            <div class="user-stats">
-                <div class="stat-item">
-                    <span class="stat-icon">🔥</span>
-                    <div>
-                        <div class="stat-value" id="streak">0</div>
-                        <div class="stat-label">streak</div>
-                    </div>
+        <div id="languageSelection" class="language-selection">
+            <div class="selection-title">✦ CodeQuest</div>
+            <div class="selection-subtitle">Choose your coding language</div>
+            <div class="language-grid">
+                <div class="language-card" onclick="selectLanguage('java')">
+                    <div class="language-icon">☕</div>
+                    <div class="language-name">Java</div>
+                    <div class="language-desc">Enterprise & Android</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-icon">✓</span>
-                    <div>
-                        <div class="stat-value" id="solved">0</div>
-                        <div class="stat-label">solved</div>
-                    </div>
+                <div class="language-card" onclick="selectLanguage('python')">
+                    <div class="language-icon">🐍</div>
+                    <div class="language-name">Python</div>
+                    <div class="language-desc">Data & AI</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-icon">⭐</span>
-                    <div>
-                        <div class="stat-value" id="points">0</div>
-                        <div class="stat-label">points</div>
-                    </div>
+                <div class="language-card" onclick="selectLanguage('typescript')">
+                    <div class="language-icon">💠</div>
+                    <div class="language-name">TypeScript</div>
+                    <div class="language-desc">Modern Web</div>
                 </div>
-            </div>
-        </header>
-
-        <div class="main-layout">
-            <aside class="sidebar">
-                <div class="section-title">📚 Learning Path</div>
-                <div class="category-list" id="categoryList"></div>
-
-                <div class="progress-bar-container">
-                    <div class="progress-label">Overall Progress</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-text" id="progressText">0 / 0 Complete</div>
+                <div class="language-card" onclick="selectLanguage('go')">
+                    <div class="language-icon">🔵</div>
+                    <div class="language-name">Go</div>
+                    <div class="language-desc">Cloud & Systems</div>
                 </div>
-            </aside>
-
-            <main class="content-area">
-                <div class="problem-card" id="problemCard"></div>
-
-                <div class="editor-section">
-                    <div class="editor-tabs" id="editorTabs"></div>
-                    <div id="editorContents"></div>
-                    <div class="editor-actions">
-                        <button class="action-btn btn-run" onclick="runCode()">
-                            <span>▶</span> Run Code
-                        </button>
-                        <button class="action-btn btn-submit" onclick="submitCode()">
-                            <span>✓</span> Submit Solution
-                        </button>
-                    </div>
+                <div class="language-card" onclick="selectLanguage('rust')">
+                    <div class="language-icon">🦀</div>
+                    <div class="language-name">Rust</div>
+                    <div class="language-desc">Performance & Safety</div>
                 </div>
-
-                <div class="output-section" id="outputSection">
-                    <div class="output-header">📊 Output</div>
-                    <div class="output-content" id="outputContent"></div>
+                <div class="language-card" onclick="selectLanguage('abap')">
+                    <div class="language-icon">🔶</div>
+                    <div class="language-name">ABAP</div>
+                    <div class="language-desc">SAP Development</div>
                 </div>
-            </main>
-        </div>
-    </div>
-
-    <!-- Add Language Modal -->
-    <div class="modal" id="languageModal">
-        <div class="modal-content">
-            <div class="modal-title">Choose a Language</div>
-            <div class="language-grid" id="languageGrid"></div>
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
             </div>
         </div>
-    </div>
 
-    <!-- Success Overlay -->
-    <div class="success-overlay" id="successOverlay">
-        <div class="success-content">
-            <div class="success-icon">🎉</div>
-            <div class="success-title">Perfect!</div>
-            <div class="success-message">Solution Accepted</div>
+        <div id="learningScreen" class="hidden">
+            <header>
+                <div class="logo" onclick="goHome()">✦ CodeQuest</div>
+                <div class="header-center">
+                    <div class="current-language" id="currentLang"></div>
+                    <button class="change-lang-btn" onclick="showLanguageSelector()">Change Language</button>
+                </div>
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <span>🔥</span>
+                        <div>
+                            <div class="stat-value" id="streak">0</div>
+                            <div class="stat-label">streak</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span>✓</span>
+                        <div>
+                            <div class="stat-value" id="solved">0</div>
+                            <div class="stat-label">solved</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span>⭐</span>
+                        <div>
+                            <div class="stat-value" id="points">0</div>
+                            <div class="stat-label">points</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="main-layout">
+                <aside class="sidebar">
+                    <div class="section-title">Learning Path</div>
+                    <div class="category-list" id="categoryList"></div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label">Overall Progress</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">0 / 0</div>
+                    </div>
+                </aside>
+
+                <main class="content-area">
+                    <div class="problem-card" id="problemCard"></div>
+                    <div class="editor-section">
+                        <div class="editor-header" id="editorHeader">Code Editor</div>
+                        <textarea class="code-editor" id="codeEditor" placeholder="Start coding..."></textarea>
+                        <div class="editor-actions">
+                            <button class="action-btn btn-run" onclick="runTests()">
+                                <span>▶</span> Run Tests
+                            </button>
+                            <button class="action-btn btn-submit" id="submitBtn" onclick="submit()" disabled>
+                                <span>✓</span> Submit
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-section" id="output">
+                        <div class="output-header">📊 Test Results</div>
+                        <div id="outputContent"></div>
+                    </div>
+                </main>
+            </div>
         </div>
     </div>
 
     <script>
-        // Language definitions with hints
-        const LANGUAGES = {
-            python: { 
-                name: 'Python', 
-                icon: '🐍', 
-                starter: '# Write your solution here\n\n'
-            },
-            javascript: { 
-                name: 'JavaScript', 
-                icon: '📜', 
-                starter: '// Write your solution here\n\n'
-            },
-            typescript: { 
-                name: 'TypeScript', 
-                icon: '💠', 
-                starter: '// Write your solution here\n\n'
-            },
-            java: { 
-                name: 'Java', 
-                icon: '☕', 
-                starter: '// Write your solution here\npublic class Solution {\n    \n}\n'
-            },
-            cpp: { 
-                name: 'C++', 
-                icon: '⚙️', 
-                starter: '// Write your solution here\n#include <iostream>\nusing namespace std;\n\n'
-            },
-            go: { 
-                name: 'Go', 
-                icon: '🔵', 
-                starter: '// Write your solution here\npackage main\n\n'
-            },
-            rust: { 
-                name: 'Rust', 
-                icon: '🦀', 
-                starter: '// Write your solution here\n\n'
-            },
-            abap: { 
-                name: 'ABAP', 
-                icon: '🔶', 
-                starter: '* Write your solution here\n\n'
-            }
+        // Language configurations
+        const LANGS = {
+            java: { name: 'Java', icon: '☕', starter: '// Write your solution here\npublic class Solution {\n    \n}\n' },
+            python: { name: 'Python', icon: '🐍', starter: '# Write your solution here\n\n' },
+            typescript: { name: 'TypeScript', icon: '💠', starter: '// Write your solution here\n\n' },
+            go: { name: 'Go', icon: '🔵', starter: '// Write your solution here\npackage main\n\n' },
+            rust: { name: 'Rust', icon: '🦀', starter: '// Write your solution here\n\n' },
+            abap: { name: 'ABAP', icon: '🔶', starter: '* Write your solution here\n\n' }
         };
 
+        // 23 Categories - 670 total problems
         const CATEGORIES = [
-            { id: 'basics', name: 'Step 1: First Steps', progress: '0/15', icon: '🌱' },
-            { id: 'variables', name: 'Step 2: Variables & Types', progress: '0/12', icon: '📦' },
-            { id: 'operators', name: 'Step 3: Operators', progress: '0/10', icon: '➕' },
-            { id: 'conditions', name: 'Step 4: Conditions', progress: '0/12', icon: '🔀' },
-            { id: 'loops', name: 'Step 5: Loops', progress: '0/15', icon: '🔄' },
-            { id: 'functions', name: 'Step 6: Functions', progress: '0/12', icon: '⚡' },
-            { id: 'arrays', name: 'Step 7: Arrays & Lists', progress: '0/15', icon: '📋' },
-            { id: 'strings', name: 'Step 8: Strings', progress: '0/12', icon: '📝' },
-            { id: 'data-structures', name: 'Step 9: Data Structures', progress: '0/20', icon: '🏗️' },
-            { id: 'algorithms', name: 'Step 10: Algorithms', progress: '0/25', icon: '🧮' },
-            { id: 'oop', name: 'Step 11: OOP Basics', progress: '0/18', icon: '🎨' },
-            { id: 'real-world', name: '🏢 Real-World Projects', progress: '0/30', icon: '💼' },
-            { id: 'bigtech', name: '🚀 Big Tech Interviews', progress: '0/50', icon: '🎯' }
+            { id: 'basics', name: '🌱 Step 1: First Steps', total: 30 },
+            { id: 'variables', name: '📦 Step 2: Variables & Types', total: 30 },
+            { id: 'operators', name: '➕ Step 3: Operators', total: 30 },
+            { id: 'conditions', name: '🔀 Step 4: Conditionals', total: 30 },
+            { id: 'loops', name: '🔄 Step 5: Loops', total: 30 },
+            { id: 'functions', name: '⚡ Step 6: Functions', total: 30 },
+            { id: 'arrays', name: '📋 Step 7: Arrays & Lists', total: 30 },
+            { id: 'strings', name: '📝 Step 8: Strings', total: 30 },
+            { id: 'oop', name: '🎨 Step 9: OOP Basics', total: 30 },
+            { id: 'collections', name: '🗂️ Step 10: Collections', total: 30 },
+            { id: 'errors', name: '🚨 Step 11: Error Handling', total: 30 },
+            { id: 'files', name: '📁 Step 12: File I/O', total: 30 },
+            { id: 'datastructures', name: '🏗️ Step 13: Data Structures', total: 30 },
+            { id: 'algorithms', name: '🧮 Step 14: Algorithms', total: 30 },
+            { id: 'recursion', name: '🔁 Step 15: Recursion', total: 30 },
+            { id: 'async', name: '⚙️ Step 16: Async/Concurrency', total: 30 },
+            { id: 'testing', name: '🧪 Step 17: Testing', total: 30 },
+            { id: 'realworld', name: '💼 Step 18: Real-World Projects', total: 30 },
+            { id: 'database', name: '🗄️ Step 19: Database Operations', total: 30 },
+            { id: 'api', name: '🌐 Step 20: API Development', total: 20 },
+            { id: 'security', name: '🔒 Step 21: Security', total: 15 },
+            { id: 'performance', name: '⚡ Step 22: Performance', total: 15 },
+            { id: 'interview', name: '🚀 Step 23: Big Tech Interviews', total: 50 }
         ];
 
-        // Helper function to create complete hints for all languages
-        const createHints = (template) => ({
-            python: template.python || 'Use Python syntax to solve this problem.',
-            javascript: template.javascript || 'Use JavaScript syntax to solve this problem.',
-            typescript: template.typescript || template.javascript || 'Use TypeScript syntax to solve this problem.',
-            java: template.java || 'Use Java syntax to solve this problem.',
-            cpp: template.cpp || 'Use C++ syntax to solve this problem.',
-            go: template.go || 'Use Go syntax to solve this problem.',
-            rust: template.rust || 'Use Rust syntax to solve this problem.',
-            abap: template.abap || 'Use ABAP syntax to solve this problem.'
-        });
-
-        // Expanded problem sets
+        // Problem Database (Representative problems for each language/category)
         const PROBLEMS = {
-            basics: [
-                {
-                    id: 1,
-                    title: 'Print Hello World',
-                    difficulty: 'beginner',
-                    tags: ['Output', 'First Program'],
-                    description: 'Write a program that prints "Hello, World!" to the console. This is the traditional first program for learning any programming language.',
-                    examples: [
-                        { input: 'None', output: 'Hello, World!' }
-                    ],
-                    hints: createHints({
-                        python: 'Use the print() function: print("Hello, World!")',
-                        javascript: 'Use console.log(): console.log("Hello, World!")',
-                        typescript: 'Use console.log(): console.log("Hello, World!")',
-                        java: 'Use System.out.println(): System.out.println("Hello, World!");',
-                        cpp: 'Use cout: cout << "Hello, World!" << endl;',
-                        go: 'Use fmt.Println(): fmt.Println("Hello, World!")',
-                        rust: 'Use println! macro: println!("Hello, World!");',
-                        abap: 'Use WRITE: WRITE: / \'Hello, World!\'.'
-                    }),
-                    testCases: [
-                        { input: '', expected: 'Hello, World!' }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: 'Print Your Name',
-                    difficulty: 'beginner',
-                    tags: ['Output', 'Variables'],
-                    description: 'Create a variable with your name and print it. Learn how to store data in variables.',
-                    examples: [
-                        { input: 'name = "Alice"', output: 'Alice' }
-                    ],
-                    hints: createHints({
-                        python: 'name = "Alice"\nprint(name)',
-                        javascript: 'let name = "Alice";\nconsole.log(name);',
-                        typescript: 'let name: string = "Alice";\nconsole.log(name);',
-                        java: 'String name = "Alice";\nSystem.out.println(name);',
-                        cpp: 'string name = "Alice";\ncout << name << endl;',
-                        go: 'name := "Alice"\nfmt.Println(name)',
-                        rust: 'let name = "Alice";\nprintln!("{}", name);',
-                        abap: 'DATA: lv_name TYPE string.\nlv_name = \'Alice\'.\nWRITE: / lv_name.'
-                    }),
-                    testCases: []
-                },
-                {
-                    id: 3,
-                    title: 'Add Two Numbers',
-                    difficulty: 'beginner',
-                    tags: ['Math', 'Operators'],
-                    description: 'Write a program that adds two numbers together and prints the result.',
-                    examples: [
-                        { input: 'a = 5, b = 3', output: '8' },
-                        { input: 'a = 10, b = 20', output: '30' }
-                    ],
-                    hints: createHints({
-                        python: 'Store numbers in variables, use + operator, print the result',
-                        javascript: 'let sum = num1 + num2; console.log(sum);',
-                        java: 'int sum = num1 + num2; System.out.println(sum);',
-                        cpp: 'int sum = num1 + num2; cout << sum << endl;',
-                        abap: 'DATA: lv_sum TYPE i. lv_sum = lv_num1 + lv_num2. WRITE: / lv_sum.'
-                    }),
-                    testCases: [
-                        { input: '5, 3', expected: '8' },
-                        { input: '10, 20', expected: '30' }
-                    ]
-                },
-                {
-                    id: 4,
-                    title: 'Calculate Rectangle Area',
-                    difficulty: 'beginner',
-                    tags: ['Math', 'Variables'],
-                    description: 'Calculate the area of a rectangle given its width and height. Area = width × height',
-                    examples: [
-                        { input: 'width = 5, height = 3', output: '15' },
-                        { input: 'width = 7, height = 4', output: '28' }
-                    ],
-                    hints: createHints({
-                        python: 'area = width * height. Use * for multiplication',
-                        javascript: 'let area = width * height;',
-                        java: 'int area = width * height;',
-                        cpp: 'int area = width * height;',
-                        abap: 'lv_area = lv_width * lv_height.'
-                    }),
-                    testCases: [
-                        { input: '5, 3', expected: '15' },
-                        { input: '7, 4', expected: '28' }
-                    ]
-                },
-                {
-                    id: 5,
-                    title: 'Swap Two Variables',
-                    difficulty: 'beginner',
-                    tags: ['Variables', 'Logic'],
-                    description: 'Given two variables a and b, swap their values. After swapping, a should have b\'s value and b should have a\'s value.',
-                    examples: [
-                        { input: 'a = 5, b = 10', output: 'a = 10, b = 5' }
-                    ],
-                    hints: createHints({
-                        python: 'Use a temporary variable: temp = a, a = b, b = temp. Or use Python\'s tuple unpacking: a, b = b, a',
-                        javascript: 'Use a temporary variable or destructuring: [a, b] = [b, a]',
-                        java: 'int temp = a; a = b; b = temp;',
-                        cpp: 'int temp = a; a = b; b = temp;',
-                        abap: 'DATA: lv_temp TYPE i. lv_temp = lv_a. lv_a = lv_b. lv_b = lv_temp.'
-                    }),
-                    testCases: []
-                }
-            ],
-            variables: [
-                {
-                    id: 6,
-                    title: 'Create Multiple Variables',
-                    difficulty: 'beginner',
-                    tags: ['Variables', 'Types'],
-                    description: 'Create variables of different types: an integer, a decimal number, a string, and a boolean.',
-                    examples: [
-                        { input: '', output: 'age = 25, price = 19.99, name = "Alice", is_student = True' }
-                    ],
-                    hints: createHints({
-                        python: 'age = 25, price = 19.99, name = "Alice", is_student = True',
-                        javascript: 'let age = 25; let price = 19.99; let name = "Alice"; let isStudent = true;',
-                        java: 'int age = 25; double price = 19.99; String name = "Alice"; boolean isStudent = true;',
-                        cpp: 'int age = 25; double price = 19.99; string name = "Alice"; bool isStudent = true;',
-                        abap: 'DATA: lv_age TYPE i, lv_price TYPE p DECIMALS 2, lv_name TYPE string, lv_student TYPE abap_bool.'
-                    }),
-                    testCases: []
-                },
-                {
-                    id: 7,
-                    title: 'Convert Temperature',
-                    difficulty: 'beginner',
-                    tags: ['Math', 'Variables'],
-                    description: 'Convert temperature from Celsius to Fahrenheit. Formula: F = C × 9/5 + 32',
-                    examples: [
-                        { input: 'celsius = 0', output: '32.0' },
-                        { input: 'celsius = 100', output: '212.0' }
-                    ],
-                    hints: createHints({
-                        python: 'fahrenheit = celsius * 9/5 + 32',
-                        javascript: 'let fahrenheit = celsius * 9/5 + 32;',
-                        java: 'double fahrenheit = celsius * 9.0/5.0 + 32;',
-                        cpp: 'double fahrenheit = celsius * 9.0/5.0 + 32;',
-                        abap: 'lv_fahrenheit = lv_celsius * 9 / 5 + 32.'
-                    }),
-                    testCases: [
-                        { input: '0', expected: '32.0' },
-                        { input: '100', expected: '212.0' }
-                    ]
-                }
-            ],
-            conditions: [
-                {
-                    id: 20,
-                    title: 'Check if Number is Positive',
-                    difficulty: 'easy',
-                    tags: ['Conditionals', 'Logic'],
-                    description: 'Write a program that checks if a number is positive, negative, or zero.',
-                    examples: [
-                        { input: '5', output: 'Positive' },
-                        { input: '-3', output: 'Negative' },
-                        { input: '0', output: 'Zero' }
-                    ],
-                    hints: createHints({
-                        python: 'Use if-elif-else: if num > 0: print("Positive")',
-                        javascript: 'Use if-else if-else statements',
-                        java: 'Use if-else if-else with comparison operators',
-                        cpp: 'Use if-else if-else statements',
-                        abap: 'Use IF-ELSEIF-ELSE statements'
-                    }),
-                    testCases: [
-                        { input: '5', expected: 'Positive' },
-                        { input: '-3', expected: 'Negative' },
-                        { input: '0', expected: 'Zero' }
-                    ]
-                }
-            ],
-            loops: [
-                {
-                    id: 30,
-                    title: 'Print Numbers 1 to 10',
-                    difficulty: 'easy',
-                    tags: ['Loops', 'Output'],
-                    description: 'Use a loop to print numbers from 1 to 10.',
-                    examples: [
-                        { input: '', output: '1 2 3 4 5 6 7 8 9 10' }
-                    ],
-                    hints: createHints({
-                        python: 'Use a for loop: for i in range(1, 11): print(i)',
-                        javascript: 'Use a for loop: for(let i = 1; i <= 10; i++)',
-                        java: 'Use a for loop: for(int i = 1; i <= 10; i++)',
-                        cpp: 'Use a for loop: for(int i = 1; i <= 10; i++)',
-                        abap: 'Use DO loop with counter'
-                    }),
-                    testCases: []
-                }
-            ],
-            bigtech: [
-                {
-                    id: 100,
-                    title: 'Two Sum',
-                    difficulty: 'medium',
-                    tags: ['Array', 'Hash Table'],
-                    description: 'Given an array of integers nums and an integer target, return indices of the two numbers that add up to target. You may assume that each input would have exactly one solution.',
-                    examples: [
-                        { input: 'nums = [2,7,11,15], target = 9', output: '[0,1]' },
-                        { input: 'nums = [3,2,4], target = 6', output: '[1,2]' }
-                    ],
-                    hints: createHints({
-                        python: 'Use a dictionary to store seen numbers and their indices. For each number, check if target - num exists in the dictionary.',
-                        javascript: 'Use a Map to track numbers you\'ve seen. Check if complement exists.',
-                        java: 'Use HashMap<Integer, Integer> to store value and index pairs.',
-                        cpp: 'Use unordered_map<int, int> for O(1) lookup time.',
-                        abap: 'Use internal table with hash key for efficient lookups.'
-                    }),
-                    testCases: [
-                        { input: '[2,7,11,15], 9', expected: '[0,1]' },
-                        { input: '[3,2,4], 6', expected: '[1,2]' },
-                        { input: '[3,3], 6', expected: '[0,1]' }
-                    ]
-                }
-            ]
+            java: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'Print Hello World',
+                        difficulty: 'beginner',
+                        description: 'Write a program that prints "Hello, World!" to the console.',
+                        hints: { h1: 'Use System.out.println()', h2: 'System.out.println("Hello, World!");' },
+                        tests: [
+                            { desc: 'Uses System.out.println', check: (c) => c.includes('System.out.println') },
+                            { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Add Two Numbers',
+                        difficulty: 'beginner',
+                        description: 'Create a method that adds two integers.',
+                        hints: { h1: 'Define method with int return type', h2: 'public static int add(int a, int b) { return a + b; }' },
+                        tests: [
+                            { desc: 'Has method definition', check: (c) => /public|private/.test(c) },
+                            { desc: 'Uses + operator', check: (c) => c.includes('+') },
+                            { desc: 'Has return statement', check: (c) => c.includes('return') }
+                        ]
+                    }
+                ],
+                oop: [
+                    {
+                        id: 50,
+                        title: 'Create a Class',
+                        difficulty: 'easy',
+                        description: 'Create a Person class with name, age fields and constructor.',
+                        hints: { h1: 'Use class keyword with private fields', h2: 'public class Person {\n  private String name;\n  private int age;\n  public Person(String n, int a) { name = n; age = a; }\n}' },
+                        tests: [
+                            { desc: 'Has class definition', check: (c) => c.includes('class') },
+                            { desc: 'Has constructor', check: (c) => /public\s+\w+\s*\(/.test(c) }
+                        ]
+                    }
+                ],
+                interview: [
+                    {
+                        id: 200,
+                        title: 'Two Sum',
+                        difficulty: 'medium',
+                        description: 'Return indices of two numbers that add up to target.',
+                        hints: { h1: 'Use HashMap to store seen numbers', h2: 'Map<Integer, Integer> map = new HashMap<>();\nfor (int i = 0; i < nums.length; i++) {\n  int c = target - nums[i];\n  if (map.containsKey(c)) return new int[] {map.get(c), i};\n  map.put(nums[i], i);\n}' },
+                        tests: [
+                            { desc: 'Uses HashMap', check: (c) => /HashMap|Map/.test(c) },
+                            { desc: 'Has loop', check: (c) => /for|while/.test(c) }
+                        ]
+                    }
+                ]
+            },
+            python: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'Print Hello World',
+                        difficulty: 'beginner',
+                        description: 'Write code that prints "Hello, World!"',
+                        hints: { h1: 'Use print() function', h2: 'print("Hello, World!")' },
+                        tests: [
+                            { desc: 'Uses print', check: (c) => c.includes('print') },
+                            { desc: 'Contains "Hello" and "World"', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Add Two Numbers',
+                        difficulty: 'beginner',
+                        description: 'Create a function that adds two numbers.',
+                        hints: { h1: 'Use def keyword', h2: 'def add(a, b):\n    return a + b' },
+                        tests: [
+                            { desc: 'Has function definition', check: (c) => c.includes('def') },
+                            { desc: 'Has return', check: (c) => c.includes('return') }
+                        ]
+                    }
+                ],
+                oop: [
+                    {
+                        id: 50,
+                        title: 'Create a Class',
+                        difficulty: 'easy',
+                        description: 'Create Person class with __init__ method.',
+                        hints: { h1: 'Use class keyword', h2: 'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age' },
+                        tests: [
+                            { desc: 'Has class', check: (c) => c.includes('class') },
+                            { desc: 'Has __init__', check: (c) => c.includes('__init__') }
+                        ]
+                    }
+                ],
+                interview: [
+                    {
+                        id: 200,
+                        title: 'Two Sum',
+                        difficulty: 'medium',
+                        description: 'Return indices of two numbers that sum to target.',
+                        hints: { h1: 'Use dictionary', h2: 'def two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], i]\n        seen[n] = i' },
+                        tests: [
+                            { desc: 'Uses dict', check: (c) => /\{|\}|dict/.test(c) },
+                            { desc: 'Has loop', check: (c) => /for|while/.test(c) }
+                        ]
+                    }
+                ]
+            },
+            typescript: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'Print Hello World',
+                        difficulty: 'beginner',
+                        description: 'Print "Hello, World!" to console.',
+                        hints: { h1: 'Use console.log()', h2: 'console.log("Hello, World!");' },
+                        tests: [
+                            { desc: 'Uses console.log', check: (c) => c.includes('console.log') },
+                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Function with Types',
+                        difficulty: 'beginner',
+                        description: 'Create typed function that adds numbers.',
+                        hints: { h1: 'Specify types', h2: 'function add(a: number, b: number): number { return a + b; }' },
+                        tests: [
+                            { desc: 'Has type annotations', check: (c) => /:\s*number/.test(c) },
+                            { desc: 'Has return', check: (c) => c.includes('return') }
+                        ]
+                    }
+                ],
+                oop: [
+                    {
+                        id: 50,
+                        title: 'Create a Class',
+                        difficulty: 'easy',
+                        description: 'Create Person class with constructor.',
+                        hints: { h1: 'Use class keyword', h2: 'class Person {\n  constructor(public name: string, public age: number) {}\n}' },
+                        tests: [
+                            { desc: 'Has class', check: (c) => c.includes('class') },
+                            { desc: 'Has constructor', check: (c) => c.includes('constructor') }
+                        ]
+                    }
+                ]
+            },
+            go: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'Print Hello World',
+                        difficulty: 'beginner',
+                        description: 'Print "Hello, World!"',
+                        hints: { h1: 'Use fmt.Println()', h2: 'fmt.Println("Hello, World!")' },
+                        tests: [
+                            { desc: 'Uses fmt.Println', check: (c) => /fmt\.Println|fmt\.Printf/.test(c) },
+                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Function Definition',
+                        difficulty: 'beginner',
+                        description: 'Create function that adds two integers.',
+                        hints: { h1: 'func name(params) returnType', h2: 'func add(a int, b int) int {\n  return a + b\n}' },
+                        tests: [
+                            { desc: 'Has func', check: (c) => c.includes('func') },
+                            { desc: 'Has return', check: (c) => c.includes('return') }
+                        ]
+                    }
+                ],
+                oop: [
+                    {
+                        id: 50,
+                        title: 'Struct and Method',
+                        difficulty: 'easy',
+                        description: 'Create Person struct with method.',
+                        hints: { h1: 'Use type and struct', h2: 'type Person struct {\n  Name string\n  Age int\n}\nfunc (p Person) Greet() string {\n  return "Hello"\n}' },
+                        tests: [
+                            { desc: 'Has struct', check: (c) => c.includes('struct') },
+                            { desc: 'Has method', check: (c) => /func\s*\(.*\)/.test(c) }
+                        ]
+                    }
+                ]
+            },
+            rust: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'Print Hello World',
+                        difficulty: 'beginner',
+                        description: 'Print "Hello, World!" using println!',
+                        hints: { h1: 'Use println! macro', h2: 'println!("Hello, World!");' },
+                        tests: [
+                            { desc: 'Uses println!', check: (c) => c.includes('println!') },
+                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Function Definition',
+                        difficulty: 'beginner',
+                        description: 'Create function that adds two i32.',
+                        hints: { h1: 'fn name(params) -> type', h2: 'fn add(a: i32, b: i32) -> i32 {\n  a + b\n}' },
+                        tests: [
+                            { desc: 'Has fn', check: (c) => c.includes('fn') },
+                            { desc: 'Has type annotation', check: (c) => /i32|->/.test(c) }
+                        ]
+                    }
+                ],
+                oop: [
+                    {
+                        id: 50,
+                        title: 'Struct and Impl',
+                        difficulty: 'easy',
+                        description: 'Create struct with implementation.',
+                        hints: { h1: 'Use struct and impl', h2: 'struct Person { name: String }\nimpl Person {\n  fn new(name: String) -> Self {\n    Person { name }\n  }\n}' },
+                        tests: [
+                            { desc: 'Has struct', check: (c) => c.includes('struct') },
+                            { desc: 'Has impl', check: (c) => c.includes('impl') }
+                        ]
+                    }
+                ]
+            },
+            abap: {
+                basics: [
+                    {
+                        id: 1,
+                        title: 'WRITE Statement',
+                        difficulty: 'beginner',
+                        description: 'Output "Hello, World!" using WRITE.',
+                        hints: { h1: 'Use WRITE: /', h2: "WRITE: / 'Hello, World!'." },
+                        tests: [
+                            { desc: 'Uses WRITE', check: (c) => c.toUpperCase().includes('WRITE') },
+                            { desc: 'Contains Hello and World', check: (c) => c.toLowerCase().includes('hello') && c.toLowerCase().includes('world') }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'DATA Declaration',
+                        difficulty: 'beginner',
+                        description: 'Declare variables using DATA.',
+                        hints: { h1: 'Use DATA: var TYPE type', h2: "DATA: lv_age TYPE i VALUE 25." },
+                        tests: [
+                            { desc: 'Uses DATA', check: (c) => c.toUpperCase().includes('DATA') },
+                            { desc: 'Uses TYPE', check: (c) => c.toUpperCase().includes('TYPE') }
+                        ]
+                    }
+                ],
+                realworld: [
+                    {
+                        id: 100,
+                        title: 'ALV Report',
+                        difficulty: 'medium',
+                        description: 'Create simple ALV report.',
+                        hints: { h1: 'Use REUSE_ALV function', h2: "CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'\n  TABLES\n    t_outtab = lt_data." },
+                        tests: [
+                            { desc: 'Uses ALV function', check: (c) => /REUSE_ALV|CL_SALV/i.test(c) },
+                            { desc: 'Has CALL FUNCTION', check: (c) => c.toUpperCase().includes('CALL FUNCTION') }
+                        ]
+                    },
+                    {
+                        id: 101,
+                        title: 'SELECT Statement',
+                        difficulty: 'medium',
+                        description: 'Read data from database table.',
+                        hints: { h1: 'Use SELECT...FROM...INTO', h2: "SELECT * FROM mara INTO TABLE lt_data UP TO 10 ROWS." },
+                        tests: [
+                            { desc: 'Uses SELECT', check: (c) => c.toUpperCase().includes('SELECT') },
+                            { desc: 'Uses FROM', check: (c) => c.toUpperCase().includes('FROM') }
+                        ]
+                    }
+                ]
+            }
         };
 
         // State
-        let currentCategory = 'basics';
-        let currentProblemIndex = 0;
-        let activeEditors = ['python'];
-        let defaultLanguage = 'python';
-        let currentEditorIndex = 0;
-        let showingHint = false;
-        let userProgress = {
-            solved: 0,
-            streak: 0,
-            points: 0,
-            problems: {},
-            completedProblems: {},
-            defaultLanguage: 'python'
-        };
+        let lang = null;
+        let cat = 'basics';
+        let idx = 0;
+        let hint = 0;
+        let showTests = false;
+        let passed = false;
+        let progress = {};
 
-        // Initialize
         function init() {
-            loadProgress();
-            renderCategories();
-            renderProblem();
-            renderEditors();
-            updateProgressBar();
-        }
-
-        function loadProgress() {
-            const saved = localStorage.getItem('codequest_progress');
+            const saved = localStorage.getItem('cq_progress');
             if (saved) {
-                userProgress = JSON.parse(saved);
-                defaultLanguage = userProgress.defaultLanguage || 'python';
-                updateStats();
+                try { progress = JSON.parse(saved); }
+                catch (e) { progress = {}; }
             }
         }
 
-        function saveProgress() {
-            userProgress.defaultLanguage = defaultLanguage;
-            localStorage.setItem('codequest_progress', JSON.stringify(userProgress));
+        function selectLanguage(l) {
+            lang = l;
+            if (!progress[lang]) {
+                progress[lang] = { solved: 0, streak: 0, points: 0, completed: {} };
+            }
+            
+            document.getElementById('languageSelection').classList.add('hidden');
+            document.getElementById('learningScreen').classList.remove('hidden');
+            
+            document.getElementById('currentLang').innerHTML = LANGS[lang].icon + ' ' + LANGS[lang].name;
+            
+            renderCategories();
+            renderProblem();
             updateStats();
-            updateProgressBar();
+        }
+
+        function showLanguageSelector() { goHome(); }
+
+        function goHome() {
+            lang = null;
+            cat = 'basics';
+            idx = 0;
+            hint = 0;
+            showTests = false;
+            passed = false;
+            
+            document.getElementById('languageSelection').classList.remove('hidden');
+            document.getElementById('learningScreen').classList.add('hidden');
         }
 
         function updateStats() {
-            document.getElementById('solved').textContent = userProgress.solved;
-            document.getElementById('streak').textContent = userProgress.streak;
-            document.getElementById('points').textContent = userProgress.points;
-        }
-
-        function updateProgressBar() {
-            let totalProblems = 0;
-            let completedProblems = 0;
+            if (!lang) return;
             
-            Object.values(PROBLEMS).forEach(category => {
-                totalProblems += category.length;
-            });
+            const p = progress[lang];
+            document.getElementById('solved').textContent = p.solved || 0;
+            document.getElementById('streak').textContent = p.streak || 0;
+            document.getElementById('points').textContent = p.points || 0;
             
-            completedProblems = Object.keys(userProgress.completedProblems || {}).length;
+            const total = CATEGORIES.reduce((s, c) => s + c.total, 0);
+            const done = Object.keys(p.completed || {}).length;
+            const pct = total > 0 ? Math.round(done / total * 100) : 0;
             
-            const percentage = totalProblems > 0 ? (completedProblems / totalProblems) * 100 : 0;
-            
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = 
-                `${completedProblems} / ${totalProblems} Complete`;
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressText').textContent = done + ' / ' + total;
         }
 
         function renderCategories() {
             const list = document.getElementById('categoryList');
-            list.innerHTML = CATEGORIES.map((cat, idx) => `
-                <div class="category-item ${idx === 0 ? 'active' : ''}" onclick="selectCategory('${cat.id}', event)">
-                    <span class="category-name">${cat.icon} ${cat.name}</span>
-                    <span class="category-progress">${cat.progress}</span>
-                </div>
-            `).join('');
+            list.innerHTML = CATEGORIES.map((c, i) => {
+                const probs = PROBLEMS[lang] && PROBLEMS[lang][c.id] || [];
+                const p = progress[lang];
+                const done = probs.filter(prob => p.completed[c.id + '_' + prob.id]).length;
+                
+                return `<div class="category-item ${i === 0 ? 'active' : ''}" onclick="selectCat('${c.id}', event)">
+                    <span class="category-name">${c.name}</span>
+                    <span class="category-progress">${done}/${c.total}</span>
+                </div>`;
+            }).join('');
         }
 
-        function selectCategory(categoryId, event) {
-            currentCategory = categoryId;
-            currentProblemIndex = 0;
-            showingHint = false;
+        function selectCat(c, e) {
+            cat = c;
+            idx = 0;
+            hint = 0;
+            showTests = false;
+            passed = false;
             
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.category-item').classList.add('active');
+            document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+            e.target.closest('.category-item').classList.add('active');
             
             renderProblem();
-            renderEditors();
         }
 
         function renderProblem() {
-            const problems = PROBLEMS[currentCategory] || PROBLEMS.basics;
-            const problem = problems[currentProblemIndex];
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
             
-            if (!problem) return;
-
-            const currentLang = activeEditors[currentEditorIndex];
-            const hint = problem.hints ? problem.hints[currentLang] : null;
-
+            if (!p) {
+                document.getElementById('problemCard').innerHTML = '<div class="coming-soon">Problems coming soon for this category! 🚀<br><small>Currently implementing 670+ problems across all languages</small></div>';
+                document.getElementById('codeEditor').value = '';
+                return;
+            }
+            
             const card = document.getElementById('problemCard');
-            card.innerHTML = `
-                <div class="problem-header">
-                    <div class="problem-title-section">
-                        <div class="problem-number">Problem ${problem.id}</div>
-                        <h2 class="problem-title">${problem.title}</h2>
-                        <div class="problem-meta">
-                            <span class="difficulty-badge difficulty-${problem.difficulty}">
-                                ${problem.difficulty}
-                            </span>
-                            <div class="problem-tags">
-                                ${problem.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="problem-description">
-                    <p>${problem.description}</p>
-                    ${problem.examples.map((ex, idx) => `
-                        <div class="example-box">
-                            <div class="example-label">Example ${idx + 1}:</div>
-                            <strong>Input:</strong> ${ex.input}<br>
-                            <strong>Output:</strong> ${ex.output}
-                        </div>
-                    `).join('')}
-                </div>
-                ${hint ? `
+            
+            let hintHTML = '';
+            if (p.hints) {
+                hintHTML = `
                     <div class="hint-section">
-                        <button class="hint-toggle" onclick="toggleHint()">
-                            💡 ${showingHint ? 'Hide' : 'Show'} Hint for ${LANGUAGES[currentLang].name}
+                        <button class="hint-toggle" onclick="toggleHint(1)">
+                            💡 ${hint >= 1 ? 'Hint 1 ✓' : 'Hint 1'}
                         </button>
-                        <div class="hint-content ${showingHint ? 'show' : ''}" id="hintContent">
-                            <div class="hint-title">Hint:</div>
-                            <div class="hint-text">${hint}</div>
-                        </div>
+                        <button class="hint-toggle" onclick="toggleHint(2)" ${hint < 1 ? 'disabled' : ''}>
+                            💡💡 ${hint >= 2 ? 'Hint 2 ✓' : 'Hint 2'}
+                        </button>
                     </div>
-                ` : ''}
-                <div class="navigation-buttons">
-                    <button class="nav-btn" onclick="previousProblem()" ${currentProblemIndex === 0 ? 'disabled' : ''}>
+                    ${hint >= 1 ? '<div class="hint-content show">' + p.hints.h1 + '</div>' : ''}
+                    ${hint >= 2 ? '<div class="hint-content show"><pre>' + p.hints.h2 + '</pre></div>' : ''}
+                `;
+            }
+
+            let testCasesHTML = '';
+            if (p.tests && p.tests.length > 0) {
+                testCasesHTML = `
+                    <div class="test-cases-section ${showTests ? 'show' : ''}">
+                        <div class="test-case-title">📋 Test Cases:</div>
+                        ${p.tests.map((t, i) => `
+                            <div class="test-case-preview">
+                                <strong>Test ${i + 1}:</strong> ${t.desc}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            card.innerHTML = `
+                <div class="problem-number">Problem ${p.id} - ${cat}</div>
+                <h2 class="problem-title">${p.title}</h2>
+                <span class="difficulty-badge difficulty-${p.difficulty}">${p.difficulty}</span>
+                <div class="problem-description">${p.description}</div>
+                <div class="problem-actions">
+                    <button class="action-btn-small" onclick="toggleTestCases()">
+                        ${showTests ? '✓ Hide' : '📋 Show'} Test Cases
+                    </button>
+                    <button class="action-btn-small" onclick="previousProblem()" ${idx === 0 ? 'disabled' : ''}>
                         ← Previous
                     </button>
-                    <button class="nav-btn" onclick="nextProblem()" ${currentProblemIndex >= problems.length - 1 ? 'disabled' : ''}>
+                    <button class="action-btn-small" onclick="nextProblem()" ${idx >= probs.length - 1 ? 'disabled' : ''}>
                         Next →
                     </button>
                 </div>
+                ${testCasesHTML}
+                ${hintHTML}
             `;
+            
+            const key = 'code_' + lang + '_' + cat + '_' + p.id;
+            const saved = localStorage.getItem(key);
+            document.getElementById('codeEditor').value = saved || LANGS[lang].starter;
+            document.getElementById('editorHeader').innerHTML = LANGS[lang].icon + ' ' + LANGS[lang].name + ' Editor';
+            
+            passed = false;
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('output').classList.remove('show');
         }
 
-        function toggleHint() {
-            showingHint = !showingHint;
+        function toggleHint(level) {
+            if (level === 1) hint = Math.max(hint, 1);
+            else if (level === 2 && hint >= 1) hint = 2;
+            renderProblem();
+        }
+
+        function toggleTestCases() {
+            showTests = !showTests;
             renderProblem();
         }
 
         function previousProblem() {
-            if (currentProblemIndex > 0) {
-                currentProblemIndex--;
-                showingHint = false;
+            if (idx > 0) {
+                idx--;
+                hint = 0;
+                showTests = false;
                 renderProblem();
-                renderEditors();
             }
         }
 
         function nextProblem() {
-            const problems = PROBLEMS[currentCategory] || PROBLEMS.basics;
-            if (currentProblemIndex < problems.length - 1) {
-                currentProblemIndex++;
-                showingHint = false;
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            if (idx < probs.length - 1) {
+                idx++;
+                hint = 0;
+                showTests = false;
                 renderProblem();
-                renderEditors();
             }
         }
 
-        function renderEditors() {
-            const tabsContainer = document.getElementById('editorTabs');
-            const contentsContainer = document.getElementById('editorContents');
+        function runTests() {
+            const code = document.getElementById('codeEditor').value.trim();
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
             
-            const tabs = activeEditors.map((lang, idx) => {
-                const langData = LANGUAGES[lang];
-                const canClose = activeEditors.length > 1;
-                const isDefault = lang === defaultLanguage;
-                return `
-                    <button class="editor-tab ${idx === currentEditorIndex ? 'active' : ''} ${isDefault ? 'default-lang' : ''}" 
-                            onclick="switchEditor(${idx})"
-                            data-lang="${lang}">
-                        <span>${langData.icon} ${langData.name}</span>
-                        <div class="tab-actions" onclick="event.stopPropagation()">
-                            ${!isDefault ? `<span class="tab-action-btn tab-set-default" onclick="setDefaultLanguage('${lang}')" title="Set as default">☆</span>` : ''}
-                            ${canClose ? `<span class="tab-action-btn tab-close" onclick="closeEditor(${idx}, event)">×</span>` : ''}
-                        </div>
-                    </button>
-                `;
-            }).join('');
-
-            const addButton = `
-                <button class="add-editor-btn" onclick="openLanguageModal()">
-                    + Add Language
-                </button>
-            `;
-
-            tabsContainer.innerHTML = tabs + addButton;
-
-            const contents = activeEditors.map((lang, idx) => {
-                const langData = LANGUAGES[lang];
-                const savedCode = getSavedCode(lang);
-                return `
-                    <div class="editor-content ${idx === currentEditorIndex ? 'active' : ''}" data-lang="${lang}">
-                        <textarea class="code-editor" id="editor-${lang}" 
-                                  placeholder="Start coding in ${langData.name}..."
-                                  oninput="autoSaveCode('${lang}')">${savedCode || langData.starter}</textarea>
-                    </div>
-                `;
-            }).join('');
-
-            contentsContainer.innerHTML = contents;
-        }
-
-        function getSavedCode(lang) {
-            const problems = PROBLEMS[currentCategory] || PROBLEMS.basics;
-            const problem = problems[currentProblemIndex];
-            const key = `code_${currentCategory}_${problem.id}_${lang}`;
-            return localStorage.getItem(key);
-        }
-
-        function autoSaveCode(lang) {
-            const problems = PROBLEMS[currentCategory] || PROBLEMS.basics;
-            const problem = problems[currentProblemIndex];
-            const key = `code_${currentCategory}_${problem.id}_${lang}`;
-            const code = document.getElementById(`editor-${lang}`).value;
+            if (!code) {
+                showOutput('<div class="test-case failed">❌ Please write some code first!</div>');
+                return;
+            }
+            
+            if (!p || !p.tests) {
+                showOutput('<div class="test-case failed">❌ No tests available.</div>');
+                return;
+            }
+            
+            let html = '';
+            let allPass = true;
+            
+            p.tests.forEach((t, i) => {
+                const testPassed = t.check(code);
+                allPass = allPass && testPassed;
+                
+                html += `<div class="test-case ${testPassed ? 'passed' : 'failed'}">
+                    ${testPassed ? '✅' : '❌'} Test ${i + 1}: ${t.desc}
+                </div>`;
+            });
+            
+            if (allPass) {
+                html += `<div class="improvement-tip">
+                    <div class="improvement-title">💡 All Tests Passed!</div>
+                    <div>Great job! You can now submit your solution.</div>
+                </div>`;
+            }
+            
+            passed = allPass;
+            document.getElementById('submitBtn').disabled = !allPass;
+            showOutput(html);
+            
+            const key = 'code_' + lang + '_' + cat + '_' + p.id;
             localStorage.setItem(key, code);
         }
 
-        function switchEditor(index) {
-            currentEditorIndex = index;
-            
-            document.querySelectorAll('.editor-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.editor-content').forEach(content => content.classList.remove('active'));
-            
-            document.querySelectorAll('.editor-tab')[index].classList.add('active');
-            document.querySelectorAll('.editor-content')[index].classList.add('active');
-            
-            renderProblem(); // Re-render to show correct hint
+        function showOutput(html) {
+            document.getElementById('outputContent').innerHTML = html;
+            document.getElementById('output').classList.add('show');
         }
 
-        function closeEditor(index, event) {
-            event.stopPropagation();
-            
-            if (activeEditors.length <= 1) {
-                alert('최소 1개의 에디터는 유지되어야 합니다.');
+        function submit() {
+            if (!passed) {
+                alert('❌ Please run tests and pass all test cases first!');
                 return;
             }
             
-            const closingLang = activeEditors[index];
+            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const p = probs[idx];
+            const key = cat + '_' + p.id;
+            const pr = progress[lang];
             
-            // If closing default language, set new default
-            if (closingLang === defaultLanguage) {
-                defaultLanguage = activeEditors[index === 0 ? 1 : 0];
-                saveProgress();
-            }
-            
-            activeEditors.splice(index, 1);
-            if (currentEditorIndex >= activeEditors.length) {
-                currentEditorIndex = activeEditors.length - 1;
-            }
-            
-            renderEditors();
-        }
-
-        function setDefaultLanguage(lang) {
-            defaultLanguage = lang;
-            saveProgress();
-            renderEditors();
-            
-            // Move default language to first position if not already
-            const langIndex = activeEditors.indexOf(lang);
-            if (langIndex > 0) {
-                activeEditors.splice(langIndex, 1);
-                activeEditors.unshift(lang);
-                currentEditorIndex = 0;
-                renderEditors();
-            }
-        }
-
-        function openLanguageModal() {
-            const modal = document.getElementById('languageModal');
-            const grid = document.getElementById('languageGrid');
-            
-            grid.innerHTML = Object.entries(LANGUAGES).map(([key, lang]) => {
-                const disabled = activeEditors.includes(key);
-                return `
-                    <div class="lang-option ${disabled ? 'disabled' : ''}" 
-                         onclick="${disabled ? '' : `addLanguage('${key}')`}">
-                        ${lang.icon} ${lang.name}
-                    </div>
-                `;
-            }).join('');
-            
-            modal.classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('languageModal').classList.remove('show');
-        }
-
-        function addLanguage(lang) {
-            if (!activeEditors.includes(lang)) {
-                activeEditors.push(lang);
-                currentEditorIndex = activeEditors.length - 1;
-                renderEditors();
-                renderProblem(); // Update hint for new language
-            }
-            closeModal();
-        }
-
-        function runCode() {
-            const outputSection = document.getElementById('outputSection');
-            const outputContent = document.getElementById('outputContent');
-            
-            const currentLang = activeEditors[currentEditorIndex];
-            const code = document.getElementById(`editor-${currentLang}`).value;
-            
-            if (!code.trim()) {
-                outputContent.textContent = '❌ Error: Please write some code first!';
-                outputSection.classList.add('show');
-                return;
-            }
-            
-            outputContent.textContent = `Running ${LANGUAGES[currentLang].name} code...\n\n` +
-                `✓ Test Case 1: Passed\n` +
-                `✓ Test Case 2: Passed\n` +
-                `✓ Test Case 3: Passed\n\n` +
-                `🎉 All test cases passed!`;
-            
-            outputSection.classList.add('show');
-        }
-
-        function submitCode() {
-            const currentLang = activeEditors[currentEditorIndex];
-            const code = document.getElementById(`editor-${currentLang}`).value;
-            
-            if (!code.trim()) {
-                alert('Please write some code before submitting!');
-                return;
-            }
-            
-            // Simulate submission
-            setTimeout(() => {
-                const overlay = document.getElementById('successOverlay');
-                overlay.classList.add('show');
+            if (!pr.completed[key]) {
+                pr.completed[key] = true;
+                pr.solved++;
+                pr.points += {beginner: 5, easy: 10, medium: 20, hard: 50}[p.difficulty] || 10;
+                pr.streak++;
                 
-                // Update progress
-                const problems = PROBLEMS[currentCategory] || PROBLEMS.basics;
-                const problem = problems[currentProblemIndex];
-                const problemKey = `${currentCategory}_${problem.id}`;
+                localStorage.setItem('cq_progress', JSON.stringify(progress));
+                updateStats();
+                renderCategories();
                 
-                if (!userProgress.completedProblems[problemKey]) {
-                    userProgress.completedProblems[problemKey] = true;
-                    userProgress.solved++;
-                    userProgress.points += getDifficultyPoints(problem.difficulty);
-                }
-                
-                userProgress.streak++;
-                saveProgress();
+                alert('✅ Solution Accepted! Moving to next problem...');
                 
                 setTimeout(() => {
-                    overlay.classList.remove('show');
-                    
-                    // Move to next problem if available
-                    if (currentProblemIndex < problems.length - 1) {
-                        nextProblem();
+                    if (idx < probs.length - 1) {
+                        idx++;
+                        hint = 0;
+                        showTests = false;
+                        passed = false;
+                        renderProblem();
+                    } else {
+                        alert('🎉 You completed all available problems in this category!');
                     }
-                }, 2500);
-            }, 1000);
-        }
-
-        function getDifficultyPoints(difficulty) {
-            const points = {
-                'beginner': 5,
-                'easy': 10,
-                'medium': 20,
-                'hard': 50
-            };
-            return points[difficulty] || 10;
-        }
-
-        // Close modal on outside click
-        document.getElementById('languageModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
+                }, 500);
+            } else {
+                alert('ℹ️ You have already completed this problem!');
             }
-        });
+        }
 
-        // Start the app
         init();
     </script>
 </body>
