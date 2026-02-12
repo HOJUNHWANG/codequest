@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -206,6 +206,11 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
         }
+        .category-item.locked {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+        .category-item.locked:hover { background: var(--bg-tertiary); }
 
         .category-name { 
             font-weight: 600; 
@@ -680,6 +685,30 @@
         let passed = false;
         let progress = {};
 
+        function getCategoryProblems(categoryId) {
+            return PROBLEMS[lang] && PROBLEMS[lang][categoryId] || [];
+        }
+
+        function isProblemSolved(categoryId, problemId) {
+            const p = progress[lang] || { completed: {} };
+            return !!p.completed[categoryId + '_' + problemId];
+        }
+
+        function isCategoryCompleted(categoryId) {
+            const probs = getCategoryProblems(categoryId);
+            if (probs.length === 0) return true;
+            return probs.every(problem => isProblemSolved(categoryId, problem.id));
+        }
+
+        function canAccessCategory(categoryId) {
+            const categoryIndex = CATEGORIES.findIndex(c => c.id === categoryId);
+            if (categoryIndex <= 0) return true;
+            for (let i = 0; i < categoryIndex; i++) {
+                if (!isCategoryCompleted(CATEGORIES[i].id)) return false;
+            }
+            return true;
+        }
+
         function init() {
             const saved = localStorage.getItem('cq_progress');
             if (saved) {
@@ -693,6 +722,10 @@
             if (!progress[lang]) {
                 progress[lang] = { solved: 0, streak: 0, points: 0, completed: {} };
             }
+
+            const firstAccessible = CATEGORIES.find(c => canAccessCategory(c.id));
+            cat = firstAccessible ? firstAccessible.id : CATEGORIES[0].id;
+            idx = 0;
             
             document.getElementById('languageSelection').classList.add('hidden');
             document.getElementById('learningScreen').classList.remove('hidden');
@@ -737,18 +770,25 @@
         function renderCategories() {
             const list = document.getElementById('categoryList');
             list.innerHTML = CATEGORIES.map((c, i) => {
-                const probs = PROBLEMS[lang] && PROBLEMS[lang][c.id] || [];
+                const probs = getCategoryProblems(c.id);
                 const p = progress[lang];
                 const done = probs.filter(prob => p.completed[c.id + '_' + prob.id]).length;
+                const locked = !canAccessCategory(c.id);
+                const lockIcon = locked ? ' 🔒' : '';
                 
-                return `<div class="category-item ${i === 0 ? 'active' : ''}" onclick="selectCat('${c.id}', event)">
-                    <span class="category-name">${c.name}</span>
+                return `<div class="category-item ${c.id === cat ? 'active' : ''} ${locked ? 'locked' : ''}" onclick="selectCat('${c.id}', event)">
+                    <span class="category-name">${c.name}${lockIcon}</span>
                     <span class="category-progress">${done}/${c.total}</span>
                 </div>`;
             }).join('');
         }
 
         function selectCat(c, e) {
+            if (!canAccessCategory(c)) {
+                alert('🔒 Complete all problems in previous steps before opening this step.');
+                return;
+            }
+
             cat = c;
             idx = 0;
             hint = 0;
@@ -804,7 +844,7 @@
             }
             
             card.innerHTML = `
-                <div class="problem-number">Problem ${p.id} - ${cat}</div>
+                <div class="problem-number">Problem ${idx + 1} of ${probs.length} • ${CATEGORIES.find(c => c.id === cat)?.name.replace(/^\S+\s+Step\s+\d+:\s*/i, '') || cat}</div>
                 <h2 class="problem-title">${p.title}</h2>
                 <span class="difficulty-badge difficulty-${p.difficulty}">${p.difficulty}</span>
                 <div class="problem-description">${p.description}</div>
@@ -836,15 +876,15 @@
         function toggleHint(level) {
             if (level === 1) {
                 if (hint === 1) {
-                    hint = 0; // 이미 켜져있으면 끄기
+                    hint = 0; // Toggle off if already enabled
                 } else {
-                    hint = 1; // 꺼져있으면 켜기
+                    hint = 1; // Toggle on if currently disabled
                 }
             } else if (level === 2) {
                 if (hint === 2) {
-                    hint = 1; // Hint 2가 켜져있으면 Hint 1만 남기기
+                    hint = 1; // Keep only Hint 1 when Hint 2 is currently visible
                 } else if (hint >= 1) {
-                    hint = 2; // Hint 1이 켜져있으면 Hint 2도 켜기
+                    hint = 2; // Enable Hint 2 when Hint 1 is visible
                 }
             }
             renderProblem();
@@ -865,7 +905,13 @@
         }
 
         function nextProblem() {
-            const probs = PROBLEMS[lang] && PROBLEMS[lang][cat] || [];
+            const probs = getCategoryProblems(cat);
+            const current = probs[idx];
+            if (current && !isProblemSolved(cat, current.id)) {
+                alert('🔒 Submit the current problem before moving to the next one.');
+                return;
+            }
+
             if (idx < probs.length - 1) {
                 idx++;
                 hint = 0;
@@ -952,7 +998,7 @@
                         passed = false;
                         renderProblem();
                     } else {
-                        // 현재 카테고리의 전체 문제 수와 구현된 문제 수 비교
+                        // Compare expected total with currently available problems
                         const category = CATEGORIES.find(c => c.id === cat);
                         const totalProblems = category ? category.total : 30;
                         const availableProblems = probs.length;
