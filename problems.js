@@ -459,7 +459,7 @@ const CATEGORY_KEYWORDS = {
 };
 
 const CATEGORY_ACTIONS = {
-    basics: ['Print', 'Display', 'Write', 'Output'],
+    basics: ['Print', 'Display', 'Show', 'Output'],
     variables: ['Declare', 'Update', 'Convert', 'Reassign'],
     operators: ['Calculate', 'Compare', 'Evaluate', 'Compose'],
     conditions: ['Branch', 'Validate', 'Decide', 'Guard'],
@@ -550,53 +550,42 @@ const LANGUAGE_SIGNALS = {
 
 const PRIORITY_CATEGORY_STEPS = {
     variables: [
-        { concept: 'declare', prompt: 'Declare variables and print their values' },
-        { concept: 'reassign', prompt: 'Reassign variable values and print the result' },
-        { concept: 'constant', prompt: 'Define and use constants' },
-        { concept: 'type-convert', prompt: 'Convert between string and number types' },
-        { concept: 'scope', prompt: 'Work with block/local variable scope' },
-        { concept: 'swap', prompt: 'Swap two variable values' },
-        { concept: 'accumulate', prompt: 'Update a running total in a variable' },
-        { concept: 'input-parse', prompt: 'Parse input into variables' },
-        { concept: 'state', prompt: 'Branch based on state variables' },
-        { concept: 'mini-model', prompt: 'Combine multiple variables in one logic flow' }
+        { concept: 'declare', prompt: '기본 변수 선언과 출력' },
+        { concept: 'reassign', prompt: '값 재할당 후 결과 출력' },
+        { concept: 'constant', prompt: '상수 선언과 사용' },
+        { concept: 'type-convert', prompt: '문자/숫자 형변환' },
+        { concept: 'scope', prompt: '블록 스코프 변수 다루기' },
+        { concept: 'swap', prompt: '두 변수 값 교환' },
+        { concept: 'accumulate', prompt: '변수 누적 업데이트' },
+        { concept: 'input-parse', prompt: '입력값을 변수로 파싱' },
+        { concept: 'state', prompt: '상태 변수 기반 분기' },
+        { concept: 'mini-model', prompt: '여러 변수 조합 로직' }
     ],
     operators: [
-        { concept: 'arithmetic', prompt: 'Compute arithmetic expressions' },
-        { concept: 'modulo', prompt: 'Use modulo for remainder-based rules' },
-        { concept: 'comparison', prompt: 'Build comparison expressions' },
-        { concept: 'logical', prompt: 'Combine logical operators' },
-        { concept: 'precedence', prompt: 'Control precedence with parentheses' },
-        { concept: 'compound', prompt: 'Use compound assignment operators' },
-        { concept: 'boolean-chain', prompt: 'Simplify chained boolean conditions' },
-        { concept: 'score-rule', prompt: 'Write a score calculation rule' },
-        { concept: 'discount-rule', prompt: 'Write a discount/tax formula' },
-        { concept: 'edge-case', prompt: 'Handle operator edge cases' }
+        { concept: 'arithmetic', prompt: '사칙연산 결과 계산' },
+        { concept: 'modulo', prompt: '나머지 연산 활용' },
+        { concept: 'comparison', prompt: '비교 연산식 구성' },
+        { concept: 'logical', prompt: '논리 연산 결합' },
+        { concept: 'precedence', prompt: '우선순위와 괄호 제어' },
+        { concept: 'compound', prompt: '복합 대입 연산자 사용' },
+        { concept: 'boolean-chain', prompt: '복합 조건식 단순화' },
+        { concept: 'score-rule', prompt: '점수 규칙 계산식 작성' },
+        { concept: 'discount-rule', prompt: '할인/세금 계산식 작성' },
+        { concept: 'edge-case', prompt: '연산 예외 경계값 처리' }
     ],
     conditions: [
-        { concept: 'if-basic', prompt: 'Handle a single if condition' },
-        { concept: 'if-else', prompt: 'Use an if-else branch' },
-        { concept: 'elif-chain', prompt: 'Build a multi-branch condition chain' },
-        { concept: 'nested', prompt: 'Write nested conditionals' },
-        { concept: 'guard', prompt: 'Use a guard condition for early return' },
-        { concept: 'range-check', prompt: 'Validate numeric ranges' },
-        { concept: 'category-map', prompt: 'Map values to categories' },
-        { concept: 'validation', prompt: 'Validate input values' },
-        { concept: 'decision-table', prompt: 'Implement a decision table' },
-        { concept: 'business-rule', prompt: 'Apply realistic business rules' }
+        { concept: 'if-basic', prompt: '단일 if 조건 처리' },
+        { concept: 'if-else', prompt: 'if-else 분기' },
+        { concept: 'elif-chain', prompt: '다중 조건 분기' },
+        { concept: 'nested', prompt: '중첩 조건문' },
+        { concept: 'guard', prompt: '가드 조건으로 빠른 반환' },
+        { concept: 'range-check', prompt: '범위 조건 판정' },
+        { concept: 'category-map', prompt: '값을 등급으로 매핑' },
+        { concept: 'validation', prompt: '입력 유효성 검증' },
+        { concept: 'decision-table', prompt: '의사결정 표 구현' },
+        { concept: 'business-rule', prompt: '실무형 분기 규칙 적용' }
     ]
 };
-
-function cleanCategoryName(rawName) {
-    return rawName
-        .replace(/^\S+\s+Step\s+\d+:\s*/i, '')
-        .replace(/^Step\s+\d+:\s*/i, '')
-        .trim();
-}
-
-function languageDisplayName(language) {
-    return (language || '').toUpperCase();
-}
 
 function createPriorityProblem(category, language, id, seq, total) {
     const pack = PRIORITY_CATEGORY_STEPS[category];
@@ -604,19 +593,19 @@ function createPriorityProblem(category, language, id, seq, total) {
 
     const step = pack[seq - 1];
     const difficulty = difficultyByPosition(seq - 1, total);
-    const categoryName = cleanCategoryName(CATEGORIES.find(c => c.id === category)?.name || category);
-    const signals = getPrioritySignals(language, category, step.concept);
+    const categoryName = CATEGORIES.find(c => c.id === category)?.name || category;
+    const signals = getSignals(language, category, step.concept);
     const lead = signals[0] || step.concept;
     const follow = signals[1] || step.concept;
 
     return {
         id,
-        title: `[Core ${seq}] ${categoryName}`,
+        title: `[Core] ${categoryName} ${seq}: ${step.prompt}`,
         difficulty,
-        description: `Goal: ${step.prompt}.\nWrite a ${languageDisplayName(language)} solution that shows input (or sample values), processing logic, and output.`,
+        description: `${categoryName} 핵심 ${seq}단계: ${step.prompt}를 ${language.toUpperCase()}로 구현하세요.`,
         hints: {
-            h1: `${langHintPrefix(language)}Start with a short plan in comments, then translate it into code.`,
-            h2: `${langHintPrefix(language)}Include a core signal (${lead}) and a secondary signal (${follow}) in your final solution.`
+            h1: `${langHintPrefix(language)}${step.concept} 흐름을 먼저 주석으로 정리한 뒤 코드로 옮기세요.`,
+            h2: `${langHintPrefix(language)}핵심 시그널(${lead})과 보조 시그널(${follow})을 포함해 정답 로직을 완성하세요.`
         },
         tests: [
             { desc: `Includes core signal (${lead})`, check: (code) => code.toLowerCase().includes(lead.toLowerCase()) },
@@ -636,12 +625,12 @@ function difficultyByPosition(index, total) {
 
 function langHintPrefix(language) {
     return {
-        java: 'In Java, ',
-        python: 'In Python, ',
-        typescript: 'In TypeScript, ',
-        go: 'In Go, ',
-        rust: 'In Rust, ',
-        abap: 'In ABAP, '
+        java: 'Java 문법으로 ',
+        python: 'Python 문법으로 ',
+        typescript: 'TypeScript 문법으로 ',
+        go: 'Go 문법으로 ',
+        rust: 'Rust 문법으로 ',
+        abap: 'ABAP 문법으로 '
     }[language] || '';
 }
 
@@ -650,12 +639,6 @@ function getSignals(language, category, keyword) {
     const selected = [...(rules.default || [])];
     if (rules[category]) selected.push(...rules[category]);
     selected.push(keyword);
-    return [...new Set(selected)].filter(Boolean);
-}
-
-function getPrioritySignals(language, category, concept) {
-    const rules = LANGUAGE_SIGNALS[language] || { default: [] };
-    const selected = [concept, ...(rules[category] || []), ...(rules.default || [])];
     return [...new Set(selected)].filter(Boolean);
 }
 
@@ -668,19 +651,19 @@ function createGeneratedProblem(category, language, id, seq, total) {
     const keyword = keywordSet[(seq - 1) % keywordSet.length];
     const action = actionSet[(seq - 1) % actionSet.length];
     const difficulty = difficultyByPosition(seq - 1, total);
-    const categoryName = cleanCategoryName(CATEGORIES.find(c => c.id === category)?.name || category);
+    const categoryName = CATEGORIES.find(c => c.id === category)?.name || category;
     const guide = langHintPrefix(language);
     const signals = getSignals(language, category, keyword);
     const mainSignal = signals[0] || keyword;
 
     return {
         id,
-        title: `${categoryName} Practice ${seq}`,
+        title: `${action} ${categoryName} ${seq}`,
         difficulty,
-        description: `Goal: Practice ${keyword} in ${categoryName}.\nTask: Write ${languageDisplayName(language)} code, run one clear example, and print the result.`,
+        description: `${categoryName} 단계 ${seq}: ${keyword} 중심의 문제를 ${language.toUpperCase()}로 해결하세요.`,
         hints: {
-            h1: `${guide}first verify the ${keyword} concept with a tiny code snippet.`,
-            h2: `${guide}include ${mainSignal} and related syntax (${signals.slice(1, 3).join(', ') || keyword}) while separating input, logic, and output.`
+            h1: `${guide}${keyword} 개념을 먼저 작은 코드 블록으로 검증하세요.`,
+            h2: `${guide}${mainSignal} 및 관련 구문(${signals.slice(1, 3).join(', ') || keyword})을 포함해 입력/처리/출력을 분리하세요.`
         },
         tests: [
             {
@@ -723,7 +706,7 @@ function ensureCurriculumDepth() {
 ensureCurriculumDepth();
 
 // ========================================
-// Problem template
+// 문제 추가 템플릿
 // ========================================
 /*
 {

@@ -785,7 +785,7 @@
 
         function selectCat(c, e) {
             if (!canAccessCategory(c)) {
-                alert('🔒 Complete all problems in previous steps before opening this step.');
+                alert('🔒 이전 스텝(카테고리)의 모든 문제를 완료해야 다음 스텝으로 이동할 수 있습니다.');
                 return;
             }
 
@@ -908,7 +908,7 @@
             const probs = getCategoryProblems(cat);
             const current = probs[idx];
             if (current && !isProblemSolved(cat, current.id)) {
-                alert('🔒 Submit the current problem before moving to the next one.');
+                alert('🔒 현재 문제를 먼저 제출 완료해야 다음 문제로 이동할 수 있습니다.');
                 return;
             }
 
